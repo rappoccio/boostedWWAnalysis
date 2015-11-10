@@ -24,7 +24,7 @@ parser.add_option('-b', '--noPlots',action='store_true', dest='noX',    default=
 parser.add_option('--check',  action='store_true', dest='check',  default=False, help='check the workspace for limit setting')
 parser.add_option('-s', '--simple', action='store_true', dest='simple', default=False, help='pre-limit in simple mode')
 parser.add_option('-m', '--multi',  action='store_true', dest='multi',  default=True,  help='pre-limit in multi mode')
-
+parser.add_option('-r', '--rhomethod',  action='store_true', dest='rhomethod',  default=False,  help='Run the rho ratio method')
 
 #### additional information: channel. jet bin, signal properties
 
@@ -63,6 +63,20 @@ from ROOT import setTDRStyle, get_pull, draw_canvas, draw_canvas_with_pull, lege
 from ROOT import fit_mj_single_MC, fit_mlvj_model_single_MC, fit_WJetsNormalization_in_Mj_signal_region, fit_mlvj_in_Mj_sideband, get_WJets_mlvj_correction_sb_lo_to_signal_region, get_mlvj_normalization_insignalregion, fit_genHMass, SystematicUncertaintyHiggs_2jetBin, SystematicUncertaintyHiggs_01jetBin
 
 from ROOT import *
+
+
+mvv_rhoPred = None
+if options.rhomethod :
+    # Should be built after "scram b" in the parent directory.
+    from DataFormats.FWLite import Events, Handle
+    gSystem.Load("libAnalysisPredictedDistribution")
+    rhoFile = TFile("wv1263invpb_nomass_highpt_rate_rate.root")
+    rhoMethodHist = rhoFile.Get("rLoMod")
+    SetOwnership( rhoMethodHist, False ) #ROOT sucks at letting go of control
+
+    rhoOut = TFile("rhoOut.root", "RECREATE")
+    mvv_rhoPred = PredictedDistribution( rhoMethodHist, "mvv_rhoPred", ";M_{VV}", 30, 0, 3000.) # I can't find the binning for the MVV plot.
+    SetOwnership( mvv_rhoPred, False )
 
 gInterpreter.GenerateDictionary("std::map<std::string,std::string>", "map;string;string")
 
@@ -1047,6 +1061,7 @@ class doFit_wj_and_wlvj:
 
           # jet mass , central value
           tmp_jet_mass = getattr(treeIn, jet_mass);
+            
           tmp_vbf_dEta = math.fabs(getattr(treeIn, "vbf_maxpt_j1_eta")-getattr(treeIn,"vbf_maxpt_j2_eta"));
           tmp_vbf_Mjj  = getattr(treeIn, "vbf_maxpt_jj_m");
           njet         = getattr(treeIn,"njets");
@@ -1055,6 +1070,23 @@ class doFit_wj_and_wlvj:
 #          mass_lvj = getattr(treeIn,"mass_lvj_type2");
           mass_lvj = getattr(treeIn,"mass_lvj_type0");
 
+          tmp_jet_mass_so = None
+          tmp_jet_pt_so = None
+          tmp_jet_rho_so = None
+          if options.rhoMethod :
+            # Get the soft drop mass and pt to form rho
+            tmp_jet_mass_so = getattr( treeIn, "jet_mass_so")
+            tmp_jet_pt_so = getattr( treeIn, "jet_pt_so")
+            tmp_jet_rho_so = tmp_jet_mass_so / tmp_jet_pt_so
+            # Make a loose "taggable" requirement to avoid weird edge effects.
+            rhoMethodTaggable = 15. < temp_jet_mass_so
+
+            # Weight the taggable distribution and check against the tagged.
+            if rhoMethodTaggable :
+              # Tag here is loose and corresponds to the rate in the file above. 
+              rhoMethodTagged = tmp_jet_mass_so > 50. and wtagger < 0.6
+              mvv_rhoPred.Accumulate( mass_lvj, tmp_jet_rho_so, rhoMethodTagged )
+          
           if label != "_WJets01" and label != "_WJets1" and label !="_data" and not options.skipJetSystematics:
 
            # jet mass jes_up
@@ -1665,6 +1697,13 @@ class doFit_wj_and_wlvj:
                  hnum_4region_jer_dn.Fill(1,tmp_event_weight);
                hnum_4region_jer_dn.Fill(2,tmp_event_weight);
 
+
+        if options.rhomethod : 
+            ## Write the prediction from the rho ratio method
+            mvv_rhoPred.SetCalculatedErrors()
+            rhoOut.cd()
+            rhoOut.Write()
+            rhoOut.Close()
         ## scale 4fit dataset in order to have the right luminosity normalization
         rrv_scale_to_lumi = RooRealVar("rrv_scale_to_lumi"+label+"_"+self.channel,"rrv_scale_to_lumi"+label+"_"+self.channel,rdataset_mj.sumEntries()/rdataset4fit_mj.sumEntries());
         rrv_scale_to_lumi.Print();
