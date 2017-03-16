@@ -6,7 +6,11 @@
 cmsenv in CMSSW_7_4_7
 
 setup root:
+
+
 setenv ROOFITSYS /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms
+
+
 source /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.22-cms/bin/thisroot.csh
 
 ### getting the code
