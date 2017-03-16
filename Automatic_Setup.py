@@ -24,6 +24,9 @@ if __name__ == "__main__":
 
   ROOT.gSystem.AddIncludePath("-I$ROOFITSYS/include");
 
+  #Added this line - Michael
+  ROOT.gSystem.Load("$ROOFITSYS/lib/libRooFitCore.so")
+
   inPath = os.getenv("PWD")
 
   os.chdir(inPath+"/PlotStyle");
@@ -45,6 +48,9 @@ if __name__ == "__main__":
 
   ROOT.gROOT.ProcessLine(".L HWWLVJRooPdfs.cxx+");
   ROOT.gSystem.Load("HWWLVJRooPdfs_cxx.so");
+
+  #Add this line - Michael
+  ROOT.gSystem.Load("$ROOFITSYS/lib/libRooFit.so")
 
   ROOT.gROOT.ProcessLine(".L MakePdf.cxx+");
   ROOT.gSystem.Load("MakePdf_cxx.so");

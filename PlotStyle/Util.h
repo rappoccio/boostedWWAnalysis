@@ -36,6 +36,7 @@
 #include "RooDataHist.h"
 #include "RooGaussian.h"
 #include "RooPlot.h"
+#include "RooMinimizer.h"
 
 using namespace std;
 using namespace ROOT;

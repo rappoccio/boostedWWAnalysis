@@ -81,7 +81,7 @@ RooPlot* get_pull(RooRealVar* rrv_x, RooPlot* mplot_orig, RooDataSet* rdataset, 
   mplot_pull->GetXaxis()->SetTitleSize(0.10);
   mplot_pull->GetXaxis()->SetLabelSize(0.10);
   mplot_pull->GetYaxis()->SetTitleOffset(0.40);
-  mplot_pull->GetYaxis()->SetTitle("#frac{Data-Fit}{#sigma_{data}}");
+  mplot_pull->GetYaxis()->SetTitle("#frac{MC-Fit}{#sigma_{MC}}");
   mplot_pull->GetYaxis()->CenterTitle();
 
   return mplot_pull;
@@ -206,7 +206,7 @@ RooPlot* get_ratio(RooRealVar* rrv_x, RooDataSet* rdataset, RooAbsPdf* model, Ro
   mplot_ratio->GetXaxis()->SetTitleSize(0.10);
   mplot_ratio->GetXaxis()->SetLabelSize(0.10);
   mplot_ratio->GetYaxis()->SetTitleOffset(0.40);
- mplot_ratio->GetYaxis()->SetTitle("#frac{Data-Fit}{#sigma_{data}}");
+ mplot_ratio->GetYaxis()->SetTitle("#frac{MC-Fit}{#sigma_{MC}}");
  //mplot_ratio->GetYaxis()->SetTitle("Data/Exp");
   mplot_ratio->GetYaxis()->CenterTitle();
 
@@ -252,7 +252,7 @@ RooPlot* get_pull_ws(RooRealVar* rrv_x, RooPlot* mplot_orig, TGraphAsymmErrors* 
  mplot_pull->GetXaxis()->SetTitleSize(0.10);
  mplot_pull->GetXaxis()->SetLabelSize(0.10);
  mplot_pull->GetYaxis()->SetTitleOffset(0.40);
- mplot_pull->GetYaxis()->SetTitle("#frac{Data-Fit}{#sigma_{data}}");
+ mplot_pull->GetYaxis()->SetTitle("#frac{MC-Fit}{#sigma_{MC}}");
  mplot_pull->GetYaxis()->CenterTitle();
 
  return mplot_pull;
@@ -411,9 +411,9 @@ TLegend* legend4Plot(RooPlot* plot, const int & left, const double & x_offset_lo
 	 }
          else{
                if(TString(objName) == "STop") theLeg->AddEntry(theObj, "Single Top",label);
-               else if(TString(objName).Contains("_TTbar_realW_failtau2tau1cut")) theLeg->AddEntry(theObj, "t#bar{t} (W-jet)","ple");
+               else if(TString(objName).Contains("_TTbar_realW_failN2DDTcut")) theLeg->AddEntry(theObj, "t#bar{t} (W-jet)","ple");
                else if(TString(objName).Contains("_TTbar_realW")) theLeg->AddEntry(theObj, "t#bar{t} (W-jet)","ple");
-               else if(TString(objName).Contains("_TTbar_fakeW_failtau2tau1cut")) theLeg->AddEntry(theObj, "t#bar{t} (non-W)","ple");
+               else if(TString(objName).Contains("_TTbar_fakeW_failN2DDTcut")) theLeg->AddEntry(theObj, "t#bar{t} (non-W)","ple");
                else if(TString(objName).Contains("_TTbar_fakeW")) theLeg->AddEntry(theObj, "t#bar{t} (non-W)","ple");
                else if(TString(objName).Contains("TTbar_realW")) theLeg->AddEntry(theObj, "t#bar{t} (merged)","f");
                else if(TString(objName).Contains("TTbar_fakeW")) theLeg->AddEntry(theObj, "t#bar{t} (unmerged)","f");
@@ -489,7 +489,7 @@ void draw_canvas(RooPlot* in_obj, const std::string & in_directory, const TStrin
   int iPos=11;
   writeExtraText = true;
   extraText  = "Preliminary";
-  lumi_13TeV  = "12.9 fb^{-1}";
+  lumi_13TeV  = "35.8 fb^{-1}";
   lumi_sqrtS = "13 TeV";
   CMS_lumi( cMassFit, iPeriod, iPos );
   cMassFit->Update();
@@ -893,9 +893,9 @@ void setTDRStyle(){
 
 float GetLumi(const std::string & channel){
  
-  if(channel=="el") return 12.9;
-  else if(channel=="mu") return 12.9;
-  else if(channel=="em") return 12.9;
+  if(channel=="el") return 35.8;
+  else if(channel=="mu") return 35.8;
+  else if(channel=="em") return 35.8;
 
   return -1 ;
 }

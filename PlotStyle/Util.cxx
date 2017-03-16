@@ -125,30 +125,57 @@ void draw_error_band_extendPdf( RooAbsData *rdata,  RooAbsPdf* rpdf, RooFitResul
  Double_t x_max = rrv_x->getMax();
  Double_t delta_x = (x_max-x_min)/number_point;
  Double_t width_x = mplot->getFitRangeBinW();
+ std::cout<<"delta_x: " << delta_x << std::endl;
+ std::cout<<"width_x: " << width_x << std::endl;
+ std::cout<<"number_point: " << number_point << std::endl;
  rpdf->Print("v");
         
  /// Central value for the bkg prediction 
  TGraph *bkgpred = new TGraph(number_point+1);
+ TGraph* error_curve[3];
+ for(int k=0;k<3;k++){
+   error_curve[k] = new TGraph(number_point+1);
+ }
+ for(int i =0 ; i <= number_point ; i++){
+   rrv_x->setVal(x_min+delta_x*i);
+   error_curve[2]->SetPoint(i,x_min+delta_x*i,rpdf->expectedEvents(*rrv_x)*rpdf->getVal(*rrv_x)*width_x);
+ }
+
+ RooAbsPdf* rpdf_copy = rpdf;
+
+ double x0,y0;
  for(int i =0 ; i <= number_point ; i++){
 	rrv_x->setVal(x_min+delta_x*i); 
+//	rpdf->Print("v");
 	bkgpred->SetPoint(i,x_min+delta_x*i,rpdf->expectedEvents(*rrv_x)*rpdf->getVal(*rrv_x)*width_x);
+//	std::cout<<"PDF value: " << rpdf->expectedEvents(*rrv_x)*rpdf->getVal(*rrv_x)*width_x << std::endl;
+
  }
  bkgpred->SetLineWidth(2);
  bkgpred->SetLineColor(kcolor);
 
- /// Take the parameters
- RooArgSet* par_pdf  = rpdf->getParameters(RooArgSet(*rrv_x));
- par_pdf->Print("v");
 
- /// Make the envelope
+// Take the parameters
+ RooArgSet* par_pdf  = rpdf->getParameters(RooArgSet(*rrv_x));
+ std::cout<<"WHERE AM I" << std::endl;
+ par_pdf->Print("v");
+ 
+// Make the envelope
  TGraph* syst[number_errorband];
+ 
  for(int j=0;j<number_errorband;j++){
         syst[j] = new TGraph(number_point+1);
 	RooArgList par_tmp = rfres->randomizePars();
 	*par_pdf = par_tmp;
+	par_pdf->Print("v");
 	for(int i =0 ; i <= number_point ; i++){
 		rrv_x->setVal(x_min+delta_x*i); 
 		syst[j]->SetPoint(i,x_min+delta_x*i,rpdf->expectedEvents(*rrv_x)*rpdf->getVal(*rrv_x)*width_x);
+/*		std::cout<<"x_min+delta_x*i: " << x_min+delta_x*i << std::endl;
+		std::cout<<"rpdf->expectedEvents(*rrv_x): " << rpdf->expectedEvents(*rrv_x) << std::endl;
+		std::cout<<"rpdf->getVal(*rrv_x): " << rpdf->getVal(*rrv_x) << std::endl;
+		std::cout<<"width_x: " << width_x << std::endl;
+		std::cout<<"SetValue: " << rpdf->expectedEvents(*rrv_x)*rpdf->getVal(*rrv_x)*width_x << std::endl;*/
 	}
  }
 
@@ -158,6 +185,7 @@ void draw_error_band_extendPdf( RooAbsData *rdata,  RooAbsPdf* rpdf, RooFitResul
  /// now extract the error curve at 2sigma 
  std::vector<double> val;
  val.resize(number_errorband);
+// std::cout<<"number_errorband: " << number_errorband << std::endl;
 
  TGraph *ap = new TGraph(number_point+1);
  TGraph *am = new TGraph(number_point+1);
@@ -170,10 +198,15 @@ void draw_error_band_extendPdf( RooAbsData *rdata,  RooAbsPdf* rpdf, RooFitResul
  for(int i =0 ; i<= number_point ; i++){
     for(int j=0;j<number_errorband;j++){
       val[j] = (syst[j])->GetY()[i];
+//      std::cout<<"val[j]: " << val[j] << std::endl;
     }
     std::sort(val.begin(),val.end());
     ap->SetPoint(i,x_min+delta_x*i,val[Int_t(0.84*number_errorband)]);
     am->SetPoint(i,x_min+delta_x*i,val[Int_t(0.16*number_errorband)]);
+//    std::cout<<"number_errorband: " << number_errorband << std::endl;
+//    std::cout<<"Int_t(0.84*number_errorband): " << Int_t(0.84*number_errorband) << std::endl;
+//    std::cout<<"val[Int_t(0.84*number_errorband)]: " << val[Int_t(0.84*number_errorband)] << endl;
+//    std::cout<<"val[Int_t(0.16*number_errorband)]: " << val[Int_t(0.16*number_errorband)] << endl;
     errorband->SetPoint(i,x_min+delta_x*i,bkgpred->GetY()[i]);
     errorband->SetPointError(i,0.,0.,bkgpred->GetY()[i]-val[Int_t(0.16*number_errorband)],val[Int_t(0.84*number_errorband)]-bkgpred->GetY()[i]);
  }

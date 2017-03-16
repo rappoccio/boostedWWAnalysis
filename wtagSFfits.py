@@ -22,6 +22,12 @@ parser.add_option('--usePuppiSD',dest="usePuppiSD", default=False, action="store
 
 (options, args) = parser.parse_args()
 
+#Added this line - Michael
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_4_7/external/slc6_amd64_gcc491/lib/libCore.so")
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_4_7/external/slc6_amd64_gcc491/lib/libHist.so")
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+
 ROOT.gSystem.Load(".//PlotStyle/Util_cxx.so")
 ROOT.gSystem.Load(".//PlotStyle/PlotUtils_cxx.so")
 ROOT.gSystem.Load(".//PDFs/PdfDiagonalizer_cc.so")
@@ -31,8 +37,8 @@ ROOT.gSystem.Load(".//BiasStudy/BiasUtils_cxx.so")
 ROOT.gSystem.Load(".//FitUtils/FitUtils_cxx.so")
 
 tdrstyle.setTDRStyle()
-CMS_lumi.lumi_13TeV = "12.9 fb^{-1}"
-if options.use76X: CMS_lumi.lumi_13TeV = "2.3 fb^{-1}"
+CMS_lumi.lumi_13TeV = "27.2 fb^{-1}"
+if options.use76X: CMS_lumi.lumi_13TeV = "27.2 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.extraText = "Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
@@ -136,6 +142,11 @@ def doFitsToMatchedTT():
 
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_realW")
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_fakeW")
+    print ttMC_fitter.file_TTbar_mc
+    print "_TTbar_realW"
+    print ttMC_fitter.mj_shape["TTbar_realW"]
+    print ttMC_fitter.channel
+    print ttMC_fitter.wtagger_label
 
     fit_mj_single_MC(ttMC_fitter.workspace4fit_,ttMC_fitter.file_TTbar_mc,"_TTbar_realW",ttMC_fitter.mj_shape["TTbar_realW"],ttMC_fitter.channel,ttMC_fitter.wtagger_label)
     fit_mj_single_MC(ttMC_fitter.workspace4fit_,ttMC_fitter.file_TTbar_mc,"_TTbar_realW_failtau2tau1cut",ttMC_fitter.mj_shape["TTbar_realW_fail"],ttMC_fitter.channel,ttMC_fitter.wtagger_label)
@@ -512,9 +523,9 @@ class initialiseFits:
 #       self.mj_shape["signal_data_fail"]     = "GausChebychev_ttbar_failtau2tau1cut"
       
       #Set lumi  
-      self.Lumi=12900
+      self.Lumi=27200.
       # self.Lumi=2198. #74
-      if options.use76X: self.Lumi=2300. #76
+      if options.use76X: self.Lumi=27200. #76
           
       self.BinWidth_mj = 5.
       self.narrow_factor = 1.
@@ -552,7 +563,8 @@ class initialiseFits:
         
 
       # Directory and input files
-      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
+      self.file_Directory         = "/eos/uscms/store/user/mkrohn/WTaggerSF/Trees/%s/"%(self.channel)
+#      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
       # self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag/PRUNED/WWTree_%s/"%(self.channel)
     
       # if options.usePuppiSD :
@@ -564,12 +576,12 @@ class initialiseFits:
       if options.use76X: postfix ="_76X"  
           
       self.file_data              = ("ExoDiBosonAnalysis.WWTree_data%s.root") %postfix        
-      self.file_WJets0_mc         = ("ExoDiBosonAnalysis.WWTree_WJets%s.root") %postfix
-      self.file_VV_mc             = ("ExoDiBosonAnalysis.WWTree_VV%s.root") %postfix      
-      self.file_QCD_mc            = ("ExoDiBosonAnalysis.WWTree_QCD%s.root") %postfix      
-      self.file_STop_mc           = ("ExoDiBosonAnalysis.WWTree_STop%s.root") %postfix           
-      self.file_TTbar_mc          = ("ExoDiBosonAnalysis.WWTree_TTbar_%s%s.root")%(in_sample,postfix)
-      self.file_pseudodata        = ("pseudodata_weighted_%s%s.root")%(in_sample,postfix)      #Important! ROOT tree containing all backgrounds added together (tt+singleT+VV+Wjets). Used for fit to total MC
+      self.file_WJets0_mc         = ("WJets.root") 
+      self.file_VV_mc             = ("VV.root")
+      self.file_QCD_mc            = ("QCD.root")
+      self.file_STop_mc           = ("ST.root")
+      self.file_TTbar_mc          = ("TT.root")
+      self.file_pseudodata        = ("PsuedoData.root")      #Important! ROOT tree containing all backgrounds added together (tt+singleT+VV+Wjets). Used for fit to total MC
       # self.file_pseudodata        = ("pseudodata_weighted.root")
       # Define Tau21 WP
       self.wtagger_label = "HP"
@@ -693,7 +705,7 @@ class initialiseFits:
         print "#################################"
         print ""
         print ""
-        self.get_mj_dataset(self.file_data,"_data")
+#        self.get_mj_dataset(self.file_data,"_data")
 
         # print "Saving workspace in myworkspace.root! To save time when debugging use option --WS myworkspace.root to avoid recreating workspace every time"
         # filename = "myworkspace.root"
@@ -778,7 +790,7 @@ class initialiseFits:
     def get_mj_dataset(self,in_file_name, label, jet_mass="Whadr_pruned"): 
 
       if options.usePuppiSD or options.useDDT: 
-        jet_mass="Whadr_puppi_softdrop"
+        jet_mass="jet1_puppi_msoftdrop_raw_TheaCorr"
       
       print "Using mass variable " ,jet_mass
     
@@ -787,7 +799,7 @@ class initialiseFits:
       print "Using file " ,fileIn_name
       
       fileIn      = TFile(fileIn_name.Data())
-      treeIn      = fileIn.Get("tree")
+      treeIn      = fileIn.Get("mynewTree")
       
       rrv_mass_j = self.workspace4fit_.var("rrv_mass_j")
       rrv_weight = RooRealVar("rrv_weight","rrv_weight",0. ,10000000.)
@@ -849,14 +861,14 @@ class initialiseFits:
           if i % 5000 == 0: print "iEntry: ",i
           treeIn.GetEntry(i)
           
-          if TString(label).Contains("realW") and not getattr(treeIn,"Whadr_isW_def1"): #Is a real W, meaning both daughters of W is withing jet cone!!
+          if TString(label).Contains("realW") and not getattr(treeIn,"LeadingAK8Jet_MatchedHadW"): #Is a real W, meaning both daughters of W is within jet cone!!
             continue
-          if TString(label).Contains("fakeW") and     getattr(treeIn,"Whadr_isW_def1"): 
+          if TString(label).Contains("fakeW") and     getattr(treeIn,"LeadingAK8Jet_MatchedHadW"): 
             continue
           
-          wtagger = getattr(treeIn,"Whadr_tau21")
+          wtagger = getattr(treeIn,"jet1tau21")
           if options.usePuppiSD:
-            wtagger = getattr(treeIn,"Whadr_puppi_tau2tau1")
+            wtagger = getattr(treeIn,"jet1_puppi_tau21")
           if options.useDDT:
             wtagger = getattr(treeIn,"Whadr_puppi_tau2tau1")+ (0.063 * TMath.log( (pow( getattr(treeIn,"Whadr_puppi_softdrop"),2))/getattr(treeIn,"Whadr_puppi_pt") ))        
             
@@ -870,6 +882,8 @@ class initialiseFits:
 
           tmp_jet_mass = getattr(treeIn, jet_mass);
           treeWeight = treeIn.GetWeight()
+#	  print "treeWeight:"
+#	  print treeWeight
           
           # if i==0:
             
@@ -881,10 +895,10 @@ class initialiseFits:
             #    tmp_event_weight4fit = tmp_event_weight4fit*treeIn.lumiweight*self.Lumi /tmp_scale_to_lumi      ##FROM JEN!
 # 
             # if TString(label).Contains("Total") or not options.usePuppiSD:   # Without pT weight (use for 76X pruning!!!) and pseudodata PUPPI+SD new corr!!!!
-              tmp_scale_to_lumi = treeIn.lumiweight*self.Lumi ## weigth for xs and lumi
+              tmp_scale_to_lumi = treeIn.weight*self.Lumi ## weigth for xs and lumi
               tmp_event_weight     = getattr(treeIn,"weight")*self.Lumi*treeWeight
-              tmp_event_weight4fit = treeWeight*getattr(treeIn,"genweight")*getattr(treeIn,"puweight")*getattr(treeIn,"hltweight") #Missing b-tag weight and Vtg weight! ##FROM JEN!
-              tmp_event_weight4fit = tmp_event_weight4fit*treeIn.lumiweight*self.Lumi /tmp_scale_to_lumi      ##FROM JEN!
+              tmp_event_weight4fit = treeWeight*getattr(treeIn,"puWeights")#*getattr(treeIn,"genweight")*getattr(treeIn,"hltweight") #Missing b-tag weight and Vtg weight! ##FROM JEN!
+              tmp_event_weight4fit = tmp_event_weight4fit*treeIn.weight*self.Lumi/tmp_scale_to_lumi      ##FROM JEN!
 
           else:
             tmp_scale_to_lumi = 1.
@@ -1023,6 +1037,7 @@ class initialiseFits:
       rrv_number_dataset_signal_region_error2_mj.Print()
       rrv_number_dataset_signal_region_before_cut_mj.Print()
       rrv_number_dataset_signal_region_before_cut_error2_mj.Print()
+      print "WHAT!!!"
       combData_p_f.Print("v")
       
 ### Start  main
