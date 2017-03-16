@@ -1208,4 +1208,3 @@ if __name__ == '__main__':
     else:
         print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
         getSF()
-
