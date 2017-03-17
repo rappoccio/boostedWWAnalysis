@@ -1,3 +1,4 @@
+
 from optparse import OptionParser
 import ROOT
 import sys
@@ -573,14 +574,14 @@ class initialiseFits:
       # Fit functions for minor backgrounds
       self.mj_shape["VV"]                 = "ExpGaus"
       self.mj_shape["VV_fail"]            = "ExpGaus"
-#      self.mj_shape["WJets0"]             = "ErfExp"
-      self.mj_shape["WJets0"]             = "Exp"
-#      self.mj_shape["WJets0_fail"]        = "ErfExp"
-      self.mj_shape["WJets0_fail"]        = "Exp"
+      self.mj_shape["WJets0"]             = "ErfExp"
+#      self.mj_shape["WJets0"]             = "Exp"
+      self.mj_shape["WJets0_fail"]        = "ErfExp"
+#      self.mj_shape["WJets0_fail"]        = "Exp"
       self.mj_shape["QCD"]                = "ErfExp"
       self.mj_shape["QCD_fail"]           = "ErfExp"
-      self.mj_shape["STop"]               = "ExpGaus_sp"
-#      self.mj_shape["STop"]               = "ErfExpGaus_sp"       
+      #self.mj_shape["STop"]               = "ExpGaus_sp"
+      self.mj_shape["STop"]               = "ErfExpGaus_sp"       
       self.mj_shape["STop_fail"]          = "ExpGaus"  
       
       if (options.usePuppiSD): 
@@ -632,9 +633,9 @@ class initialiseFits:
 #       self.mj_shape["signal_data_fail"]     = "GausChebychev_ttbar_failSubjetTau21cut"
       
       #Set lumi  
-      self.Lumi=35.8
+      self.Lumi=35800.
       # self.Lumi=2198. #74
-      if options.use76X: self.Lumi=35.8 #76
+      if options.use76X: self.Lumi=35800. #76
           
       self.BinWidth_mj = 5.
       self.narrow_factor = 1.
@@ -786,7 +787,7 @@ class initialiseFits:
 #        fit_mj_single_MC(self.workspace4fit_,self.file_VV_mc,"_VV_failSubjetTau21cut",self.mj_shape["VV_fail"],self.channel,self.wtagger_label)
         
         
-        # # Build QCD fit pass and fail distributions
+
 #        print "#########################################"
 #        print "################## QCD ##################"
 #        print "#########################################"
@@ -1044,7 +1045,7 @@ class initialiseFits:
           elif wtagger > options.tau2tau1cutLP: # Extreme fail
               discriminantCut = 0
               
-          tmp_jet_mass = getattr(treeIn, jet_mass) #* getattr(treeIn, "JetSDptCorrL23")
+          tmp_jet_mass = getattr(treeIn, jet_mass) #* getattr(treeIn, "JetMassCorrFactor")
           
           
           if i==0: 
