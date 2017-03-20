@@ -14,19 +14,22 @@ setenv ROOFITSYS /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms
 source /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.22-cms/bin/thisroot.csh
 
 ### getting the code
-clone the repo
+git clone https://github.com/UBParker/boostedWScalefactorProducer.git -b originalRemote/LatestGreatest 
+
+### compiling
+cd boostedWScalefactorProducer/
+python Automatic_Setup.py --vclean 1#To compile
 
 ### running
-
 ```
-python Automatic_Setup.py --vclean 1#To compile
-python wtagSFfits_N2DDT.py -b   #To run
+python Automatic_Setup.py  #To compile
+python wtagSFfits2.py -usePuppiSD   #To run
 ```
 
 The basic script to be run is 
 
 ```
-python wtagSFfits_N2DDT.py
+python wtagSFfits2.py
 ```
 It takes as input .root files containing a TTree with a branch for the mass distribution you want to calculate a scalefactor for. This branch can contain events after full selection is applied, or new selections can be implemented on the fly in wtagSFfits.py. In addition to a data and the separate background MC files, you need one file called "*pseudodata* wchich contains all MC added together (with their appropriate weights, using ROOT hadd).
 
