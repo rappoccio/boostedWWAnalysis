@@ -7,19 +7,22 @@ cmsenv in CMSSW_7_4_7
 
 setup root:
 
-
+```
 setenv ROOFITSYS /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms
 
 
 source /cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.22-cms/bin/thisroot.csh
-
+```
 ### getting the code
+```
 git clone https://github.com/UBParker/boostedWScalefactorProducer.git -b originalRemote/LatestGreatest 
-
+```
 ### compiling
+```
 cd boostedWScalefactorProducer/
-python Automatic_Setup.py --vclean 1#To compile
 
+python Automatic_Setup.py --vclean 1#To compile
+```
 ### running
 ```
 python Automatic_Setup.py  #To compile
