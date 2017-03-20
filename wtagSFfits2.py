@@ -11,7 +11,7 @@ from ROOT import *
 parser = OptionParser()
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.55)
+parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.7)
 parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
 parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg")
 parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
@@ -85,7 +85,7 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     if options.useDDT: postfix = "_PuppiSD_DDT"
     if options.useN2DDT: postfix = "_PuppiSD_N2DDT"
     title = "Pruned jet mass (GeV)"
-    if options.usePuppiSD or options.useDDT or options.useN2DDT:  title = "PUPPI Softdrop Jet Mass (GeV)"
+    if options.usePuppiSD or options.useDDT or options.useN2DDT:  title = "PUPPI SD subjet 0 Jet Mass (GeV)"
     
     
     frame = variable.frame()
@@ -141,7 +141,7 @@ def drawDataAndMC(variable,fitResult,dataset,pdfModel,isData,variable2,fitResult
     if options.useDDT: postfix = "_PuppiSD_DDT"
     if options.useN2DDT: postfix = "_PuppiSD_N2DDT"
     title = "Pruned jet mass (GeV)"
-    if options.usePuppiSD or options.useDDT or options.useN2DDT:  title = "PUPPI Softdrop Jet mass (GeV)"
+    if options.usePuppiSD or options.useDDT or options.useN2DDT:  title = "PUPPI SD Subjet 0 Jet mass (GeV)"
 
 
     frame = variable.frame()
@@ -645,8 +645,8 @@ class initialiseFits:
       in_mj_max        = in_mj_min+nbins_mj*self.BinWidth_mj
       
       jetMass = "Pruned jet mass"
-      if options.usePuppiSD: jetMass = "PUPPI Softdrop Jet Mass"
-      if options.useN2DDT: jetMass = "PUPPI Softdrop Jet Mass"
+      if options.usePuppiSD: jetMass = "(300 < pt < 600) PUPPI Softdrop SubJet 0 Mass"
+      if options.useN2DDT: jetMass = "(300 < pt < 600) PUPPI Softdrop SubJet 0 Mass"
 
       rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(in_mj_min+in_mj_max)/2.,in_mj_min,in_mj_max,"GeV")
       rrv_mass_j.setBins(nbins_mj)
@@ -685,12 +685,12 @@ class initialiseFits:
 
       postfix = ""
       if options.use76X: postfix ="_76X"  
-      self.file_data              = ("singlemuandel_run2016_highmass_noTopTagSkimWeights2.root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
-      self.file_pseudodata        = ("pseudodata_highmass_noTopTagSkimWeights2.root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
-      self.file_WJets0_mc         = ("wjets_highmass_noTopTagSkimWeights2.root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
-      self.file_QCD_mc             = ("QCD_highmass_noTopTagSkimWeights2.root")# ("ExoDiBosonAnalysis.WWTree_VV_76X_PUPPISD.root")        
-      self.file_TTbar_mc          = ("ttbarTuneCUETP8M2T4_highmass_noTopTagSkimWeights2.root") #("ExoDiBosonAnalysis.WWTree_TTbar_powheg_76X_PUPPISD.root")
-      self.file_STop_mc           = ("ST_highmass_noTopTagSkimWeights2.root")# ("ExoDiBosonAnalysis.WWTree_STop_76X_PUPPISD.root")
+      self.file_data              = ("singlemuandel_run2016_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
+      self.file_pseudodata        = ("pseudodata_highmass_noTopTagSkimWeights3.root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
+      self.file_WJets0_mc         = ("wjets_highmass_noTopTagSkimWeights3.root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
+      self.file_QCD_mc             = ("QCD_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_VV_76X_PUPPISD.root")        
+      self.file_TTbar_mc          = ("ttbarTuneCUETP8M2T4_highmass_noTopTagSkimWeights3.root") #("ExoDiBosonAnalysis.WWTree_TTbar_powheg_76X_PUPPISD.root")
+      self.file_STop_mc           = ("ST_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_STop_76X_PUPPISD.root")
     
       #self.file_data              = ("Data_2Trans.root")
       #self.file_WJets0_mc         = ("WJets_2Trans.root") 
@@ -715,7 +715,8 @@ class initialiseFits:
       # Define label used for plots and choosing fit paramters in PDFs/MakePdf.cxx  
       wp = "%.2f" %options.tau2tau1cutHP
       wp = wp.replace(".","v")
-      self.wtagger_label = self.wtagger_label + "%s%s%s"%(wp,in_sample,postfix) 
+      ptBin = "ptSubjet300to600"
+      self.wtagger_label = self.wtagger_label + "%s%s%s%s"%(wp,in_sample,postfix, ptBin ) 
 
       
       #Color pallett for plots
@@ -736,13 +737,13 @@ class initialiseFits:
       self.vpt_cut      = 200   # hadronic and leptonic W cut
       self.mass_lvj_max = 5000. # invariant mass of 3 body max
       self.mass_lvj_min = 0.    # invariant mass of 3 body min
-      self.pfMET_cut    = 40.    # missing transverse energy
+      self.pfMET_cut    = 50.    # missing transverse energy
       self.lpt_cut      = 53.    # lepton pT
-      self.AK8_pt_min   = 200
-      self.AK8_pt_max   = 5000  
+      self.AK8_pt_min   = 200.
+      self.AK8_pt_max   = 5000.
       if self.channel  == "el":
-        self.pfMET_cut = 80
-        self.lpt_cut = 120      
+        self.pfMET_cut = 120.
+        self.lpt_cut = 55.      
       
       # Out .txt file with final SF numbers
       self.file_ttbar_control_txt = "WtaggingSF.txt"
@@ -776,11 +777,11 @@ class initialiseFits:
 
 
         # Build VV fit pass and fail distributions
-        print "#########################################"
-        print "############### VV Pythia ###############"
-        print "#########################################"
-        print ""
-        print ""
+#        print "#########################################"
+##        print "############### VV Pythia ###############"
+#        print "#########################################"
+#        print ""
+#        print ""
 
 #        self.get_mj_dataset(self.file_VV_mc,"_VV")
 #        fit_mj_single_MC(self.workspace4fit_,self.file_VV_mc,"_VV",self.mj_shape["VV"],self.channel,self.wtagger_label)
@@ -788,15 +789,15 @@ class initialiseFits:
         
         
 
-#        print "#########################################"
-#        print "################## QCD ##################"
-#        print "#########################################"
-#        print ""
-#        print ""
+        print "#########################################"
+        print "################## QCD ##################"
+        print "#########################################"
+        print ""
+        print ""
    
-#        self.get_mj_dataset(self.file_VV_mc,"_QCD")
-#        fit_mj_single_MC(self.workspace4fit_,self.file_VV_mc,"_QCD",self.mj_shape["QCD"],self.channel,self.wtagger_label)
-#        fit_mj_single_MC(self.workspace4fit_,self.file_VV_mc,"_QCD_failSubjetTau21cut",self.mj_shape["QCD_fail"],self.channel,self.wtagger_label)
+        self.get_mj_dataset(self.file_QCD_mc,"_QCD")
+        fit_mj_single_MC(self.workspace4fit_,self.file_QCD_mc,"_QCD",self.mj_shape["QCD"],self.channel,self.wtagger_label)
+        fit_mj_single_MC(self.workspace4fit_,self.file_QCD_mc,"_QCD_failSubjetTau21cut",self.mj_shape["QCD_fail"],self.channel,self.wtagger_label)
         
 
         if options.fitMC:
@@ -855,7 +856,7 @@ class initialiseFits:
         self.workspace4fit_.var("rrv_number_dataset_signal_region_data_"    +self.channel+"_mj").Print()
 #        self.workspace4fit_.var("rrv_number_dataset_signal_region_VV_"      +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_WJets0_"  +self.channel+"_mj").Print()
-#        self.workspace4fit_.var("rrv_number_dataset_signal_region_QCD_"     +self.channel+"_mj").Print()
+        self.workspace4fit_.var("rrv_number_dataset_signal_region_QCD_"     +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_STop_"    +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_TTbar_"   +self.channel+"_mj").Print()
         print ""
@@ -998,27 +999,49 @@ class initialiseFits:
           if TString(label).Contains("fakeW") and isFakeW != 1 : 
             continue
             
+          PuppiJetCorr = getattr(treeIn,"JetPuppiCorrFactor")
           
-          subjet0Mass = getattr(treeIn,"JetPuppiSDsubjet0mass")# * getattr(treeIn, "JetSDptCorrL23")
-          subjet1Mass =getattr(treeIn,"JetPuppiSDsubjet1mass")#* getattr(treeIn, "JetSDptCorrL23")
+          self.ak8PuppiSDJetP4_Subjet0 = ROOT.TLorentzVector()
+          self.ak8PuppiSDJetP4_Subjet0.SetPtEtaPhiM( getattr(treeIn,"JetPuppiSDsubjet0pt"),
+                                                     getattr(treeIn,"JetPuppiSDsubjet0eta"), 
+                                                     getattr(treeIn,"JetPuppiSDsubjet0phi"), 
+                                                     getattr(treeIn,"JetPuppiSDsubjet0mass")  )
+                                                     
+          self.ak8PuppiSDJetP4_Subjet0Raw =   self.ak8PuppiSDJetP4_Subjet0 
+          self.ak8PuppiSDJetP4_Subjet0 =   self.ak8PuppiSDJetP4_Subjet0  * PuppiJetCorr
+          self.ak8subjet0PuppiSD_m = self.ak8PuppiSDJetP4_Subjet0.M()
 
-          subjet0Pt = getattr(treeIn,"JetPuppiSDsubjet0pt") # getattr(treeIn, "JetSDptCorrL23")
+
+          self.ak8PuppiSDJetP4_Subjet1 = ROOT.TLorentzVector()
+          self.ak8PuppiSDJetP4_Subjet1.SetPtEtaPhiM( getattr(treeIn,"JetPuppiSDsubjet1pt"),
+                                                     getattr(treeIn,"JetPuppiSDsubjet1eta"), 
+                                                     getattr(treeIn,"JetPuppiSDsubjet1phi"), 
+                                                     getattr(treeIn,"JetPuppiSDsubjet1mass")  )
+          self.ak8PuppiSDJetP4_Subjet1Raw =   self.ak8PuppiSDJetP4_Subjet1 
+          self.ak8PuppiSDJetP4_Subjet1 =   self.ak8PuppiSDJetP4_Subjet1 * PuppiJetCorr
 
 
-          fatjet0Mass = (subjet0Mass + subjet1Mass) 
-          ### Top tag mass cut
-          #if fatjet0Mass > 110. : print"Fat jet mass is {0:2.2f}".format(fatjet0Mass)
-          if  not ( 110. <= fatjet0Mass <= 250.) : continue
 
+          self.ak8PuppiSDJetP4 =  self.ak8PuppiSDJetP4_Subjet0 +  self.ak8PuppiSDJetP4_Subjet1
+          self.ak8PuppiSDJetP4Raw =   self.ak8PuppiSDJetP4
+          self.ak8PuppiSDJetP4 =   self.ak8PuppiSDJetP4 * PuppiJetCorr
+            
+          self.ak8PuppiSD_m  = float(self.ak8PuppiSDJetP4.M())       
           fatjetTau32 = getattr(treeIn, "JetPuppiTau32")
+          
+          ### Top mass window cut
+          
+          if  not ( 110. <= self.ak8PuppiSD_m <= 250.) : continue
+
           ### Top tag loose n-subjettiness cut
 
           if  not ( fatjetTau32 < 0.8) : continue
 
           ### Wtag mass window cut
-          if  not ( 10. <= subjet0Mass <= 110.) : continue
+          if  not ( 10. <=  self.ak8subjet0PuppiSD_m <= 120.) : continue
 
-          if not (300. <= subjet0Pt <= 600.): continue
+          if not (300. <= self.ak8PuppiSDJetP4_Subjet0.Perp() <= 600.): continue
+
           SJtau1 = getattr(treeIn,"JetSDsubjet0tau1") 
           SJtau2 = getattr(treeIn,"JetSDsubjet0tau2")
 
@@ -1026,7 +1049,7 @@ class initialiseFits:
           if SJtau1 >= 0.1 :
             wtagger = SJtau2/ SJtau1
             #if fatjet0Mass < 210. : print"Fat jet mass is {0:2.2f} and tau32 is {1:2.2f} and SD subjet 0 mass is {2:2.2f}".format(fatjet0Mass, fatjetTau32, subjet0Mass)
-            if subjet0Mass > 50. : print"Fat jet SD subjet 0 mass is {0:2.2f} ,tau21 is {1:2.2f}, pt is {2:2.2f}".format(fatjet0Mass, wtagger, subjet0Pt)
+            if self.ak8subjet0PuppiSD_m > 50. : print"Fat jet SD subjet 0 mass is {0:2.2f} ,tau21 is {1:2.2f}, pt is {2:2.2f}".format( self.ak8PuppiSD_m , wtagger,  self.ak8PuppiSDJetP4_Subjet0.Perp() )
 
           else : wtagger = 10.
           if options.usePuppiSD:
@@ -1045,7 +1068,7 @@ class initialiseFits:
           elif wtagger > options.tau2tau1cutLP: # Extreme fail
               discriminantCut = 0
               
-          tmp_jet_mass = getattr(treeIn, jet_mass) #* getattr(treeIn, "JetMassCorrFactor")
+          tmp_jet_mass = self.ak8subjet0PuppiSD_m
           
           
           if i==0: 
