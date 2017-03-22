@@ -1,4 +1,3 @@
-
 from optparse import OptionParser
 import ROOT
 import sys
@@ -11,7 +10,7 @@ from ROOT import *
 parser = OptionParser()
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.7)
+parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.55)
 parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
 parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg")
 parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
@@ -564,22 +563,24 @@ class initialiseFits:
 #      self.mj_shape["TTbar_realW"]      = "ExpGaus"
       self.mj_shape["TTbar_realW"]      = "GausErfExp_ttbar" #before "2Gaus_ttbar"
 #      self.mj_shape["TTbar_realW_fail"] = "GausExp_failSubjetTau21cut"
-      self.mj_shape["TTbar_realW_fail"] = "GausErfExp_ttbar_failSubjetTau21cut" #before "GausChebychev_ttbar_failSubjetTau21cut"
+      self.mj_shape["TTbar_realW_fail"] = "GausChebychev_ttbar_failSubjetTau21cut"
       self.mj_shape["TTbar_fakeW"]      = "ErfExp_ttbar"
-#      self.mj_shape["TTbar_fakeW_fail"] = "Exp"
+#      self.mj_shape["TTbar_fakeW_fail"] = "Exp"## Make model : _bkg_TotalMC_failSubjetTau21cut GausChebychev_ttbar_failSubjetTau21cut  500 ##
+
       self.mj_shape["TTbar_fakeW_fail"] = "ErfExp_ttbar_failSubjetTau21cut"      
       if (options.useDDT): 
         self.mj_shape["TTbar_realW_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut"  
         
       # Fit functions for minor backgrounds
-      self.mj_shape["VV"]                 = "ExpGaus"
-      self.mj_shape["VV_fail"]            = "ExpGaus"
+#      self.mj_shape["VV"]                 = "ExpGaus"
+#      self.mj_shape["VV_fail"]            = "ExpGaus"
       self.mj_shape["WJets0"]             = "ErfExp"
 #      self.mj_shape["WJets0"]             = "Exp"
       self.mj_shape["WJets0_fail"]        = "ErfExp"
 #      self.mj_shape["WJets0_fail"]        = "Exp"
-      self.mj_shape["QCD"]                = "ErfExp"
-      self.mj_shape["QCD_fail"]           = "ErfExp"
+      self.mj_shape["QCD"]                =  "ErfExp"#"GausChebychev_ttbar_failSubjetTau21cut"
+
+      self.mj_shape["QCD_fail"]           =  "ErfExp"
       #self.mj_shape["STop"]               = "ExpGaus_sp"
       self.mj_shape["STop"]               = "ErfExpGaus_sp"       
       self.mj_shape["STop_fail"]          = "ExpGaus"  
@@ -592,16 +593,16 @@ class initialiseFits:
 #        self.mj_shape["STop_fail"]          = "ExpGaus"
         self.mj_shape["STop_fail"]          = "ExpGaus_sp"
 
-      if (options.tau2tau1cutHP==0.60): 
-        self.mj_shape["VV_fail"]     = "Exp"
-        self.mj_shape["VV"]          = "Exp"
-        self.mj_shape["WJets0_fail"] = "Exp" 
+#      if (options.tau2tau1cutHP==0.60): 
+#        self.mj_shape["QCD_fail"]     = "Exp"
+#        self.mj_shape["QCD"]          = "Exp"
+#        self.mj_shape["WJets0_fail"] = "Exp" 
         
-      if (options.useDDT):
-        self.mj_shape["VV"]                 = "ExpGaus"
-        self.mj_shape["VV_fail"]            = "ErfExpGaus_sp"
-        self.mj_shape["STop_fail"]          = "ErfExpGaus_sp" 
-        self.mj_shape["STop"]               = "ExpGaus"  
+#      #if (options.useDDT):
+#        self.mj_shape["VV"]                 = "ExpGaus"
+#        self.mj_shape["VV_fail"]            = "ErfExpGaus_sp"
+#        self.mj_shape["STop_fail"]          = "ErfExpGaus_sp" 
+#        self.mj_shape["STop"]               = "ExpGaus"  
         
       # Fit functions used in simultaneous fit of pass and fail categories
       self.mj_shape["bkg_mc_fail"]          = "ErfExp_ttbar_failSubjetTau21cut"
@@ -611,7 +612,7 @@ class initialiseFits:
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
 #      self.mj_shape["signal_data_fail"]     = "GausExp_failSubjetTau21cut"
-      self.mj_shape["signal_mc_fail"]       = "GausErfExp_ttbar_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
+      self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" #"GausErfExp_ttbar_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
       self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
 
       self.mj_shape["bkg_data"]             = "ErfExp_ttbar"
@@ -622,9 +623,9 @@ class initialiseFits:
 #      self.mj_shape["signal_mc"]            = "ExpGaus"
       self.mj_shape["signal_mc"]            = "GausErfExp_ttbar"
       
-      if (options.useDDT): 
-        self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
-        self.mj_shape["signal_data_fail"]     = "GausChebychev_ttbar_failSubjetTau21cut"
+#      if (options.useDDT): 
+#        self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
+#        self.mj_shape["signal_data_fail"]     = "GausChebychev_ttbar_failSubjetTau21cut"
       
       # # #TESTS USING OLD METHOD, EG ADDING TWO ADDITIONAL FIT FUNCTIONS
 #       self.mj_shape["signal_data"]          = "2Gaus_ttbar"
@@ -645,8 +646,8 @@ class initialiseFits:
       in_mj_max        = in_mj_min+nbins_mj*self.BinWidth_mj
       
       jetMass = "Pruned jet mass"
-      if options.usePuppiSD: jetMass = "(300 < pt < 600) PUPPI Softdrop SubJet 0 Mass"
-      if options.useN2DDT: jetMass = "(300 < pt < 600) PUPPI Softdrop SubJet 0 Mass"
+      if options.usePuppiSD: jetMass = "(300<pt<600) PUPPI Softdrop Subjet0 Mass"
+      if options.useN2DDT: jetMass = "(300<pt<600) PUPPI Softdrop Subjet0 Mass"
 
       rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(in_mj_min+in_mj_max)/2.,in_mj_min,in_mj_max,"GeV")
       rrv_mass_j.setBins(nbins_mj)
@@ -660,10 +661,10 @@ class initialiseFits:
 
       # Signal region between 65 and 105 GeV
       self.mj_sideband_lo_min = in_mj_min
-      self.mj_sideband_lo_max = 65
-      self.mj_signal_min      = 65
-      self.mj_signal_max      = 105
-      self.mj_sideband_hi_min = 105
+      self.mj_sideband_lo_max = 70#65
+      self.mj_signal_min      = 70#65
+      self.mj_signal_max      = 100#105
+      self.mj_sideband_hi_min = 100#105
       self.mj_sideband_hi_max = in_mj_max
  
       # Setting ranges...
@@ -723,7 +724,7 @@ class initialiseFits:
       self.color_palet = ROOT.std.map(ROOT.std.string, int) ()
       self.color_palet["data"]              = 1
       self.color_palet["WJets"]             = 2
-      self.color_palet["VV"]                = 4
+      #self.color_palet["VV"]                = 4
       self.color_palet["QCD"]               = 5
       self.color_palet["STop"]              = 7
       self.color_palet["TTbar"]             = 210
@@ -840,8 +841,8 @@ class initialiseFits:
       ScaleFactorTTbarControlSampleFit(self.workspace4fit_,self.mj_shape,self.color_palet,self.constrainslist_data,self.constrainslist_mc,"",self.channel,self.wtagger_label,self.AK8_pt_min,self.AK8_pt_max)
      
       #Get data/MC scalefactors
-      rrv_scale_number                      = self.workspace4fit_.var("rrv_scale_number_TTbar_STop_VV_WJets").getVal()
-      rrv_scale_number_fail                 = self.workspace4fit_.var("rrv_scale_number_TTbar_STop_VV_WJets_fail").getVal()
+      rrv_scale_number                      = self.workspace4fit_.var("rrv_scale_number_TTbar_STop_QCD_WJets").getVal()
+      rrv_scale_number_fail                 = self.workspace4fit_.var("rrv_scale_number_TTbar_STop_QCD_WJets_fail").getVal()
       
       #Print data/MC scalefactors
       print " Pass MC / all data = %.3f" %(rrv_scale_number)
@@ -854,7 +855,7 @@ class initialiseFits:
         print ""
         print ""
         self.workspace4fit_.var("rrv_number_dataset_signal_region_data_"    +self.channel+"_mj").Print()
-#        self.workspace4fit_.var("rrv_number_dataset_signal_region_VV_"      +self.channel+"_mj").Print()
+#        self.workspace4fit_.var("rrv_number_dataset_signal_region_VV"      +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_WJets0_"  +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_QCD_"     +self.channel+"_mj").Print()
         self.workspace4fit_.var("rrv_number_dataset_signal_region_STop_"    +self.channel+"_mj").Print()
@@ -1022,9 +1023,9 @@ class initialiseFits:
 
 
 
-          self.ak8PuppiSDJetP4 =  self.ak8PuppiSDJetP4_Subjet0 +  self.ak8PuppiSDJetP4_Subjet1
-          self.ak8PuppiSDJetP4Raw =   self.ak8PuppiSDJetP4
-          self.ak8PuppiSDJetP4 =   self.ak8PuppiSDJetP4 * PuppiJetCorr
+          self.ak8PuppiSDJetP4Raw =  self.ak8PuppiSDJetP4_Subjet0Raw +  self.ak8PuppiSDJetP4_Subjet1Raw
+          #self.ak8PuppiSDJetP4Raw =   self.ak8PuppiSDJetP4
+          self.ak8PuppiSDJetP4 =   self.ak8PuppiSDJetP4Raw * PuppiJetCorr
             
           self.ak8PuppiSD_m  = float(self.ak8PuppiSDJetP4.M())       
           fatjetTau32 = getattr(treeIn, "JetPuppiTau32")
