@@ -181,7 +181,7 @@ void ScaleFactorTTbarControlSampleFit(RooWorkspace* workspace, std::map<std::str
   RooRealVar* number_TTbar_unmerged = new RooRealVar(("rrv_number_TTbar_fakeW"+label+"_"+channel).c_str(),("rrv_number_TTbar_fakeW"+label+"_"+channel).c_str(),rdataset_TTbar_mj_unmerged->sumEntries()*ttSF);
 
 //  RooAddPdf* model_TTbar_STop_QCD_WJets = new RooAddPdf(("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_merged,*model_histpdf_TTbar_unmerged,*model_histpdf_STop,*model_histpdf_VV,*model_histpdf_WJets),RooArgList(*number_TTbar_merged,*number_TTbar_unmerged,*number_STop,*number_VV,*number_WJets));
-  RooAddPdf* model_TTbar_STop_QCD_WJets = new RooAddPdf(("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_merged,*model_histpdf_TTbar_unmerged,*model_histpdf_STop,*model_histpdf_WJets,*model_histpdf_QCD),RooArgList(*number_TTbar_merged,*number_TTbar_unmerged,*number_STop,*number_WJets,*model_histpdf_QCD));
+  RooAddPdf* model_TTbar_STop_QCD_WJets = new RooAddPdf(("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_merged,*model_histpdf_TTbar_unmerged,*model_histpdf_STop,*model_histpdf_WJets,*model_histpdf_QCD),RooArgList(*number_TTbar_merged,*number_TTbar_unmerged,*number_STop,*number_WJets,*number_QCD));
   
   workspace->import(*model_TTbar_STop_QCD_WJets);
   
@@ -225,7 +225,7 @@ void ScaleFactorTTbarControlSampleFit(RooWorkspace* workspace, std::map<std::str
   RooRealVar* number_TTbar_fail_unmerged  = new RooRealVar(("rrv_number_TTbar_fail_fakeW"+label+"_"+channel).c_str(),("rrv_number_TTbar_fail_fakeW"+label+"_"+channel).c_str(),rdataset_TTbar_mj_fail_unmerged->sumEntries()*ttSF);
   
 //  RooAddPdf* model_TTbar_STop_QCD_WJets_fail = new RooAddPdf(("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_fail_merged,*model_histpdf_TTbar_fail_unmerged,*model_histpdf_STop_fail,*model_histpdf_VV_fail,*model_histpdf_WJets_fail), RooArgList(*number_TTbar_fail_merged,*number_TTbar_fail_unmerged,*number_STop_fail,*number_VV_fail,*number_WJets_fail));
-  RooAddPdf* model_TTbar_STop_QCD_WJets_fail = new RooAddPdf(("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_fail_merged,*model_histpdf_TTbar_fail_unmerged,*model_histpdf_STop_fail,*model_histpdf_WJets_fail,*model_histpdf_QCD_fail), RooArgList(*number_TTbar_fail_merged,*number_TTbar_fail_unmerged,*number_STop_fail,*number_WJets_fail,*model_histpdf_QCD_fail));
+  RooAddPdf* model_TTbar_STop_QCD_WJets_fail = new RooAddPdf(("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),("model_TTbar_STop_QCD_WJets_fail"+label+"_"+channel).c_str(),RooArgList(*model_histpdf_TTbar_fail_merged,*model_histpdf_TTbar_fail_unmerged,*model_histpdf_STop_fail,*model_histpdf_WJets_fail,*model_histpdf_QCD_fail), RooArgList(*number_TTbar_fail_merged,*number_TTbar_fail_unmerged,*number_STop_fail,*number_WJets_fail,*number_QCD_fail));
 
   workspace->import(*model_TTbar_STop_QCD_WJets_fail);
   
@@ -461,17 +461,17 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
   //pass plots
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_line_invisible"), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName()  );
+  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName()  );
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_realW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(),model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(),model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_fakeW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s",model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s",model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+  cut.Form("%s,%s,%s",model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("STop_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s",model_histpdf_VV->GetName(),model_histpdf_WJets->GetName());
 //  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("VV_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
-  cut.Form("%s",model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+  cut.Form("%s,%s",model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("WJets_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
   cut.Form("%s",model_histpdf_QCD->GetName());
   model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("QCD_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
