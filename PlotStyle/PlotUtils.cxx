@@ -418,7 +418,7 @@ TLegend* legend4Plot(RooPlot* plot, const int & left, const double & x_offset_lo
                else if(TString(objName).Contains("TTbar_realW")) theLeg->AddEntry(theObj, "t#bar{t} (merged)","f");
                else if(TString(objName).Contains("TTbar_fakeW")) theLeg->AddEntry(theObj, "t#bar{t} (unmerged)","f");
                else if(TString(objName).Contains("TTbar")) theLeg->AddEntry(theObj, "t#bar{t}",label);
-               else if(TString(objName).Contains("VV"))    theLeg->AddEntry(theObj, "WW/WZ/ZZ",label);
+	       //               #else if(TString(objName).Contains("QCD"))    theLeg->AddEntry(theObj, "QCD","f");
                else if(TString(objName).Contains("data")) { objName_before = objName; entryCnt = entryCnt+1; continue;}
                else if(TString(objName).Contains("WJets")){ objName_before = objName; entryCnt = entryCnt+1; continue;}
                else if(TString(objName).Contains("Uncertainty"))
