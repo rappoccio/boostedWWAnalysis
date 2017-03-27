@@ -134,7 +134,7 @@ void fit_mj_single_MC(RooWorkspace* workspace, const std::string & fileName, con
 void ScaleFactorTTbarControlSampleFit(RooWorkspace* workspace, std::map<std::string,std::string > mj_shape, std::map<std::string,int> color_palet, std::vector<std::string>* constraintlist_data, std::vector<std::string>* constraintlist_MC, const std::string & label, const std::string & channel, const std::string & wtagger, const double & ca8_ungroomed_pt_min, const double & ca8_ungroomed_pt_max){
   
   
-  float ttSF = 1.; //0.667028210351; // powheg80X
+  float ttSF = 0.9 ; //0.667028210351; // powheg80X
 //  float ttSF = 1.;
   
 
@@ -306,8 +306,8 @@ void ScaleFactorTTbarControlSampleFit(RooWorkspace* workspace, std::map<std::str
 ///-------------------------------------------
 void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::string,int> color_palet, const std::string & label, const std::string & channel, const std::string & wtagger,const double & ca8_ungroomed_pt_min, const double & ca8_ungroomed_pt_max, const std::string & sample){
   
-  float ttSF = 0.667028210351;
-//  float ttSF = 1.;
+  //  float ttSF = 0.667028210351;
+  float ttSF = 0.9 ;
   std::cout<< "Using tt scalefactor of " << ttSF << std::endl;
 
   RooRealVar* rrv_mass_j = workspace->var("rrv_mass_j");
@@ -486,7 +486,7 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
   cut.Form("category_p_f%s_%s==category_p_f%s_%s::pass",label.c_str(),channel.c_str(),label.c_str(),channel.c_str());
   simPdf_TotalMC->plotOn(xframe_data,RooFit::Name("MC fit"),RooFit::Slice(*category_p_f,"pass"), RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_TotalMC),RooFit::NormRange("controlsample_fitting_range"), RooFit::LineStyle(kSolid), RooFit::LineColor(kRed));
 //  cut.Form("model_bkg_TotalMC_%s_mj,model_STop_%s_mj,model_VV_%s_mj,model_WJets0_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
-  cut.Form("model_bkg_TotalMC_%s_mj,model_STop_%s_mj,model_WJets0_%s_mj",channel.c_str(),channel.c_str(),channel.c_str());
+  cut.Form("model_bkg_TotalMC_%s_mj,model_STop_%s_mj,model_WJets0_%s_mj, model_QCD_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(), channel.c_str());
   simPdf_TotalMC->plotOn(xframe_data,RooFit::Name("mc fit bkg_invisible"),RooFit::Slice(*category_p_f,"pass"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_TotalMC),RooFit::NormRange("controlsample_fitting_range"), RooFit::Components(cut.Data()), RooFit::LineColor(kRed), RooFit::LineStyle(kDashed));
 
   // plot data fit function
@@ -495,7 +495,7 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
 
   simPdf_data->plotOn(xframe_data,RooFit::Name("Data fit"),RooFit::Slice(*category_p_f,"pass"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_data),RooFit::NormRange("controlsample_fitting_range"), RooFit::LineStyle(kSolid), RooFit::LineColor(kBlue));
 //  cut.Form("model_bkg_data_%s_mj,model_STop_%s_mj,model_VV_%s_mj,model_WJets0_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
-  cut.Form("model_bkg_data_%s_mj,model_STop_%s_mj,model_WJets0_%s_mj",channel.c_str(),channel.c_str(),channel.c_str());
+  cut.Form("model_bkg_data_%s_mj,model_STop_%s_mj,model_WJets0_%s_mj,model_QCD_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
   simPdf_data->plotOn(xframe_data,RooFit::Name("dat fit bkg_invisible"),RooFit::Slice(*category_p_f,"pass"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_data),RooFit::NormRange("controlsample_fitting_range"), RooFit::Components(cut.Data()), RooFit::LineStyle(kDashed), RooFit::LineColor(kBlue));
 
 
