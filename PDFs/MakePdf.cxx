@@ -415,7 +415,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
       if( TString(label).Contains("_STop_failSubjetTau21cut" ) ) {
         rrv_c_Exp       = new RooRealVar(("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),-0.03,-0.5,0.5);
-        rrv_mean1_gaus  = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,60,120); //Too narrow limits here often lead to error!! eg max 80
+        rrv_mean1_gaus  = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,60,150); //Too narrow limits here often lead to error!! eg max 80
         rrv_sigma1_gaus = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,4,60);
         
         if(TString(wtagger_label.c_str()).Contains("Puppi")){
@@ -473,8 +473,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
     if( model == "ErfExpGaus_sp"){
 
       RooRealVar* rrv_c_ErfExp    = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-0.04,-0.2,0.);
-      RooRealVar* rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,120.);
-      RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),85,40,100);
+      RooRealVar* rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,150.);
+      RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,70,90);
       RooRealVar* rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,0.,40);
       
       if(TString(wtagger_label.c_str()).Contains("DDT")){
@@ -483,13 +483,13 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
         rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,75,90);
         rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,5.,11);
         
-        if( TString(label).Contains("_QCD") ) {
-          rrv_c_ErfExp    = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-4.0352e-02,-0.09,0.);
-          rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,80.);
-          rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,75,87);
-          rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,5.,9.);
+        //if( TString(label).Contains("_QCD") ) {
+          //rrv_c_ErfExp    = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-4.0352e-02,-0.09,0.);
+	  // rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,80.);
+          //rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,75,87);
+	  // rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,5.,9.);
           
-        }
+	// }
       }
       
 
@@ -524,7 +524,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
         width_tmp  =  2.5308e+01  ;
       }
       if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){
-        mean1_tmp = 8.0857e+01;
+        mean1_tmp = 83.;  //8.0857e+01;
         sigma1_tmp = 8.4035e+00;
         rangeMean = 5. ;
         rangeWidth = 5. ;
@@ -616,7 +616,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
         scalesigma_tmp = 2.74416583258705149e+00;
       }
       if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){
-        mean1_tmp = 80.85;
+        mean1_tmp = 82.85;
         sigma1_tmp = 9.65;
         // frac_tmp = 6.9510e-01 ;
         deltamean_tmp  = 3.499 ;
@@ -710,6 +710,35 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
       return model_pdf ;
     }
 
+    if( model == "GausChebychev_ttbar"){
+
+      RooAbsPdf* model_pdf = NULL ;
+
+      double p0_tmp = 3.1099e-01 ; double p0_tmp_err = 1.86e-01;
+      double p1_tmp = -2.2128e-01; double p1_tmp_err = 3.02e-01;
+      double frac_tmp =  4.6400e-01  ; double frac_tmp_err = 1.20e-01;
+      double mean1_tmp = 8.7682e+01;
+      double sigma1_tmp = 11.2789e+00;
+
+
+      // take the same gaussian used in the pass sample
+      RooAbsPdf* gaus = NULL ;
+      if( TString(label).Contains("data"   ) ) gaus = workspace->pdf(("gaus1_ttbar_data_"+channel+spectrum).c_str());
+      if( TString(label).Contains("TotalMC") ) gaus = workspace->pdf(("gaus1_ttbar_TotalMC_"+channel+spectrum).c_str());
+      if( TString(label).Contains("realW")   ) gaus = workspace->pdf(("gaus1_TTbar_realW_"+channel+spectrum).c_str());
+
+      RooRealVar* rrv_p0_cheb2 = new RooRealVar(("rrv_p0_cheb2"+label+"_"+channel+spectrum).c_str(),("rrv_p0_cheb2"+label+"_"+channel+spectrum).c_str(),p0_tmp);
+      RooRealVar* rrv_p1_cheb2 = new RooRealVar(("rrv_p1_cheb2"+label+"_"+channel+spectrum).c_str(),("rrv_p1_cheb2"+label+"_"+channel+spectrum).c_str(),p1_tmp);
+
+      RooChebychev* cheb2 = new RooChebychev(("cheb2"+label+"_"+channel+spectrum).c_str(),("cheb2"+label+"_"+channel+spectrum).c_str(), *rrv_x, RooArgList(*rrv_p0_cheb2,*rrv_p1_cheb2) );
+
+      RooRealVar* rrv_frac = new RooRealVar(("rrv_frac"+label+"_"+channel+spectrum).c_str(),("rrv_frac"+label+"_"+channel+spectrum).c_str(),frac_tmp);
+      model_pdf = new RooAddPdf(("model_pdf"+label+"_"+channel+spectrum).c_str(),("model_pdf"+label+"_"+channel+spectrum).c_str(),RooArgList(*gaus,*cheb2),RooArgList(*rrv_frac),1);
+
+      return model_pdf ;
+    }
+
+
     if( model == "GausErfExp_ttbar_failSubjetTau21cut"){
 
       double c0_tmp     = -3.0626e-02 ;      double c0_tmp_err = 1.46e-02;
@@ -732,8 +761,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
         offset_tmp  = 1.9915e+02 ;
         width_tmp   = 6.4888e+01 ;
         // frac_tmp = 4.5680e-01 ;
-        mean1_tmp   = 8.0056e+01 ;
-        sigma1_tmp  = 9.4160e+00 ;
+        mean1_tmp   = 8.3056e+01 ;
+        sigma1_tmp  = 11.270e+00 ;
           
         if(TString(wtagger_label.c_str()).Contains("0v56")){
           mean1_tmp = 8.4429e+01 ;
@@ -824,8 +853,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
       }
       
       if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){
-        c0_tmp     =  -2.1046e-02 ;     
-        offset_tmp =  8.0122e+01 ;      
+        c0_tmp     =  -2.7046e-02 ; // PARAMETERS 1 erfexp_ttbar puppi SD     
+        offset_tmp =  9.0122e+01 ;// was 8.2122e+01      
         width_tmp  =  2.9595e+01 ; 
       }
       
@@ -889,8 +918,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
         }
       }
       if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){     
-        c0_tmp = -3.5160e-02    ;       c0_tmp_err = 1.46e-02;
-        offset_tmp = 6.0935e+01 ;       offset_tmp_err = 4.92e+01;
+        c0_tmp = -3.160e-02    ;       c0_tmp_err = 1.46e-02; // PARAMETERS 2 
+        offset_tmp = 6.5935e+01 ;       offset_tmp_err = 4.92e+01;
         width_tmp = 3.9583e+01  ;       width_tmp_err = 4.69e+00;
       }
       
@@ -939,12 +968,12 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
     if( model == "ErfExp" ){
       std::cout<< "########### Erf*Exp for mj fit  ############"<<std::endl;
       RooRealVar* rrv_c_ErfExp      = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-0.026);//,-0.05, 0.05);
-      RooRealVar* rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),41.,0.,100);
-      RooRealVar* rrv_width_ErfExp  = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,1.,100.);
+      RooRealVar* rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),81.,10.,140);
+      RooRealVar* rrv_width_ErfExp  = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),80.,10.,140.);
 
       if(TString(label).Contains("_WJets0") ) {
         rrv_c_ErfExp      = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-0.0279,-0.5,0.);
-        rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),70.,60.,75.);
+        rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),70.,10.,150.);
         rrv_width_ErfExp  = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),23.8,20.,30.);
 
         if(TString(label).Contains("fail") ) {
@@ -967,7 +996,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
       if( TString(label).Contains("_STop_failSubjetTau21cut" ) ) {
         rrv_c_Exp       = new RooRealVar(("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),-0.03,-0.5,0.5);
-        rrv_mean1_gaus  = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,60,120); //Too narrow limits here often lead to error!! eg max 80
+        rrv_mean1_gaus  = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),84,60,150); //Too narrow limits here often lead to error!! eg max 80
         rrv_sigma1_gaus = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,4,60);
       }
       if( TString(label).Contains("_QCD") ) {
@@ -984,8 +1013,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
     if( model == "ErfExpGaus_sp"){
 
       RooRealVar* rrv_c_ErfExp    = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),-0.04,-0.2,0.);
-      RooRealVar* rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,300.);
-      RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,40,100);
+      RooRealVar* rrv_width_ErfExp= new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),30.,10,150.);
+      RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,60,90);
       RooRealVar* rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,0.,40);
 
       RooErfExpPdf* erfExp        = new RooErfExpPdf(("erfExp"+label+"_"+channel+spectrum).c_str(),("erfExp"+label+"_"+channel+spectrum).c_str(),*rrv_x,*rrv_c_ErfExp,*rrv_mean1_gaus,*rrv_width_ErfExp);
@@ -999,7 +1028,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
     if( model == "GausErfExp_ttbar"){
 
-      double mean1_tmp = 8.02653e+01;
+      double mean1_tmp = 8.2653e+01;
       double sigma1_tmp = 7.5932e+00;
       float rangeMean = 6. ;
       float rangeWidth = 5. ;
@@ -1043,8 +1072,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
       RooRealVar* rrv_frac = new RooRealVar(("rrv_frac"+label+"_"+channel+spectrum).c_str(),("rrv_frac"+label+"_"+channel+spectrum).c_str(),frac_tmp,0.4,1);
       RooRealVar* rrv_c_ErfExp      = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),c0_tmp,-10,10.);
-      RooRealVar* rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),offset_tmp,0.,100.);
-      RooRealVar* rrv_width_ErfExp  = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),width_tmp,0.,100.);
+      RooRealVar* rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),offset_tmp,0.,150.);
+      RooRealVar* rrv_width_ErfExp  = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),width_tmp,0.,150.);
 
 
       
@@ -1181,7 +1210,7 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
       RooRealVar* rrv_c_ErfExp = new RooRealVar(("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_c_ErfExp"+label+"_"+channel+spectrum).c_str(),c0_tmp,-0.1,0.);//,c0_tmp-4e-2, c0_tmp+4e-2);
       RooRealVar* rrv_offset_ErfExp = new RooRealVar(("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_offset_ErfExp"+label+"_"+channel+spectrum).c_str(),offset_tmp,0.,200.);//,offset_tmp-offset_tmp_err,offset_tmp+offset_tmp_err);
-      RooRealVar* rrv_width_ErfExp = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(), width_tmp,30.,100);//,width_tmp-width_tmp_err, width_tmp+width_tmp_err);
+      RooRealVar* rrv_width_ErfExp = new RooRealVar(("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(),("rrv_width_ErfExp"+label+"_"+channel+spectrum).c_str(), width_tmp,0.,100);//,width_tmp-width_tmp_err, width_tmp+width_tmp_err);
 
       RooErfExpPdf* erfExp = new RooErfExpPdf(("erfExp"+label+"_"+channel+spectrum).c_str(),("model_pdf"+label+"_"+channel+spectrum).c_str(),*rrv_x,*rrv_c_ErfExp,*rrv_offset_ErfExp,*rrv_width_ErfExp);
 
