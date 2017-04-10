@@ -10,7 +10,7 @@ from ROOT import *
 parser = OptionParser()
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.4)
+parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.55)
 parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
 parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg")
 parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
@@ -127,7 +127,7 @@ def drawFrameGetChi2(self, variable,fitResult,dataset,pdfModel,isData):
     addInfo.Draw()
     c1.Update()
     cname = pdfModel.GetName()
-    c1.SaveAs("plots/%s_%s_%s.pdf"%(cname,options.sample, self.boostedW_fitter_em.wtagger_label  ))
+    c1.SaveAs("plots/%s_%s_%s.png"%(cname,options.sample, self.boostedW_fitter_em.wtagger_label  ))
     c1.SaveAs("plots/%s_%s_%s.root"%(cname,options.sample, self.boostedW_fitter_em.wtagger_label ))
     return chi2
 
@@ -203,7 +203,7 @@ def drawDataAndMC(self, variable,fitResult,dataset,pdfModel,isData,variable2,fit
     addInfo.Draw()
     c1.Update()
     cname = pdfModel.GetName()
-    c1.SaveAs("plots/CombinedPlot_%s_%s.pdf"%(cname, self.boostedW_fitter_em.wtagger_label))
+    c1.SaveAs("plots/CombinedPlot_%s_%s.png"%(cname, self.boostedW_fitter_em.wtagger_label))
     c1.SaveAs("plots/CombinedPlot_%s_%s.root"%(cname, self.boostedW_fitter_em.wtagger_label))
     return chi2
 
@@ -217,7 +217,7 @@ def getSF():
 
 def doFitsToMatchedTT():
     workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")
-    ttMC_fitter = initialiseFits("em", options.sample, 45, 140, workspace4fit_)
+    ttMC_fitter = initialiseFits("em", options.sample, 40, 140, workspace4fit_)
 
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_realW")
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_fakeW")
@@ -237,7 +237,7 @@ def doFitsToMatchedTT():
         
 def doFitsToMC():
     workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")
-    boostedW_fitter_em = initialiseFits("em", options.sample, 45, 140, workspace4fit_)
+    boostedW_fitter_em = initialiseFits("em", options.sample, 40, 140, workspace4fit_)
     boostedW_fitter_em.get_datasets_fit_minor_bkg()
     print "Finished fitting MC! Plots can be found in plots_*_MCfits. Printing workspace:"
     workspace4fit_.Print()
@@ -372,7 +372,7 @@ def GetWtagScalefactors(workspace,fitter):
 class doWtagFits:
     def __init__(self):
         self.workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")                           # create workspace
-        self.boostedW_fitter_em = initialiseFits("em", options.sample, 45, 140, self.workspace4fit_)    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
+        self.boostedW_fitter_em = initialiseFits("em", options.sample, 40, 140, self.workspace4fit_)    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
         self.boostedW_fitter_em.get_datasets_fit_minor_bkg()                                            # Loop over intrees to create datasets om Mj and fit the single MCs.
        
         print "Printing workspace:"; self.workspace4fit_.Print(); print ""
@@ -545,7 +545,7 @@ class doWtagFits:
 class initialiseFits:
 
     # Constructor: Input is channel (mu,ele,em), range in mj and a workspace
-    def __init__(self, in_channel, in_sample, in_mj_min=45, in_mj_max=140, input_workspace=None):
+    def __init__(self, in_channel, in_sample, in_mj_min=40, in_mj_max=140, input_workspace=None):
       
       RooAbsPdf.defaultIntegratorConfig().setEpsRel(1e-9)
       RooAbsPdf.defaultIntegratorConfig().setEpsAbs(1e-9)
@@ -564,7 +564,7 @@ class initialiseFits:
       self.mj_shape["TTbar_realW"]      = "GausErfExp_ttbar" #before "2Gaus_ttbar"
 #      self.mj_shape["TTbar_realW_fail"] = "GausExp_failSubjetTau21cut"
       self.mj_shape["TTbar_realW_fail"] = "GausChebychev_ttbar_failSubjetTau21cut"
-      self.mj_shape["TTbar_fakeW"]      = "GausChebychev_ttbar" #"ErfExp_ttbar"
+      self.mj_shape["TTbar_fakeW"]      =  "GausErfExp_ttbar"
 #      self.mj_shape["TTbar_fakeW_fail"] = "Exp"## Make model : _bkg_TotalMC_failSubjetTau21cut GausChebychev_ttbar_failSubjetTau21cut  500 ##
 
       self.mj_shape["TTbar_fakeW_fail"] = "GausErfExp_ttbar_failSubjetTau21cut"      
@@ -574,13 +574,13 @@ class initialiseFits:
       # Fit functions for minor backgrounds
 #      self.mj_shape["VV"]                 = "ExpGaus"
 #      self.mj_shape["VV_fail"]            = "ExpGaus"
-      self.mj_shape["WJets0"]             = "ErfExp"
+      self.mj_shape["WJets0"]             = "ErfExp" #"GausErfExp_Wjets" #"ErfExp"
 #      self.mj_shape["WJets0"]             = "Exp"
       self.mj_shape["WJets0_fail"]        = "ErfExp"
 #      self.mj_shape["WJets0_fail"]        = "Exp"
-      self.mj_shape["QCD"]                =  "ErfExp"#"GausChebychev_ttbar_failSubjetTau21cut"
+      self.mj_shape["QCD"]                = "ErfExp"#  "GausChebychev_QCD" #"GausErfExp_QCD"#"GausChebychev_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["QCD_fail"]           =  "ErfExp"
+      self.mj_shape["QCD_fail"]           =  "ErfExp" # "GausErfExp_QCD_failSubjetTau21cut"
       #self.mj_shape["STop"]               = "ExpGaus_sp"
       self.mj_shape["STop"]               = "ErfExpGaus_sp"       
       self.mj_shape["STop_fail"]          = "ExpGaus"  
@@ -605,9 +605,9 @@ class initialiseFits:
 #        self.mj_shape["STop"]               = "ExpGaus"  
         
       # Fit functions used in simultaneous fit of pass and fail categories
-      self.mj_shape["bkg_mc_fail"]          = "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_mc_fail"]          = "ErfExp"# "GausErfExp_ttbar_failSubjetTau21cut"
 #      self.mj_shape["bkg_mc_fail"]          = "Exp"
-      self.mj_shape["bkg_data_fail"]        = "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_data_fail"]        = "ErfExp" #"GausErfExp_ttbar_failSubjetTau21cut"
 #      self.mj_shape["bkg_data_fail"]        = "Exp"    
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
@@ -615,8 +615,8 @@ class initialiseFits:
       self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" #"GausErfExp_ttbar_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
       self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["bkg_data"]             = "GausChebychev_ttbar" # "ErfExp_ttbar"
-      self.mj_shape["bkg_mc"]               = "GausChebychev_ttbar" #"ErfExp_ttbar"   
+      self.mj_shape["bkg_data"]             =  "ErfExp_ttbar"
+      self.mj_shape["bkg_mc"]               = "ErfExp_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
 #      self.mj_shape["signal_data"]          = "ExpGaus"
       self.mj_shape["signal_data"]          = "GausErfExp_ttbar" #Before 2Gaus_ttbar
@@ -638,7 +638,7 @@ class initialiseFits:
       # self.Lumi=2198. #74
       if options.use76X: self.Lumi=35800. #76
           
-      self.BinWidth_mj = 5.
+      self.BinWidth_mj = 7.
       self.narrow_factor = 1.
 
       self.BinWidth_mj = self.BinWidth_mj/self.narrow_factor
@@ -646,8 +646,8 @@ class initialiseFits:
       in_mj_max        = in_mj_min+nbins_mj*self.BinWidth_mj
       
       jetMass = "Pruned jet mass"
-      if options.usePuppiSD: jetMass = "(300<pt<600) PUPPI Softdrop Subjet0 Mass"
-      if options.useN2DDT: jetMass = "(300<pt<600) PUPPI Softdrop Subjet0 Mass"
+      if options.usePuppiSD: jetMass = "(300<pt<500) PUPPI Softdrop Subjet0 Mass"
+      if options.useN2DDT: jetMass = "(300<pt<500) PUPPI Softdrop Subjet0 Mass"
 
       rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(in_mj_min+in_mj_max)/2.,in_mj_min,in_mj_max,"GeV")
       rrv_mass_j.setBins(nbins_mj)
@@ -671,11 +671,12 @@ class initialiseFits:
       rrv_mass_j.setRange("sb_lo",self.mj_sideband_lo_min,self.mj_sideband_lo_max) # 30-65 GeV
       rrv_mass_j.setRange("signal_region",self.mj_signal_min,self.mj_signal_max)   # 65-105 GeV
       rrv_mass_j.setRange("sb_hi",self.mj_sideband_hi_min,self.mj_sideband_hi_max) # 105-135 GeV
-      rrv_mass_j.setRange("controlsample_fitting_range",45,140) # ---> what is this????
+      rrv_mass_j.setRange("controlsample_fitting_range",40,140) # ---> what is this????
         
 
       # Directory and input files
       self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+#"/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
 #      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
       # self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag/PRUNED/WWTree_%s/"%(self.channel)
     
@@ -686,12 +687,13 @@ class initialiseFits:
 
       postfix = ""
       if options.use76X: postfix ="_76X"  
-      self.file_data              = ("singlemuandel_run2016_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
-      self.file_pseudodata        = ("pseudodata_highmass_noTopTagSkimWeights3.root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
-      self.file_WJets0_mc         = ("wjets_highmass_noTopTagSkimWeights3.root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
-      self.file_QCD_mc             = ("QCD_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_VV_76X_PUPPISD.root")        
-      self.file_TTbar_mc          = ("ttbarTuneCUETP8M2T4_highmass_noTopTagSkimWeights3.root") #("ExoDiBosonAnalysis.WWTree_TTbar_powheg_76X_PUPPISD.root")
-      self.file_STop_mc           = ("ST_highmass_noTopTagSkimWeights3.root")# ("ExoDiBosonAnalysis.WWTree_STop_76X_PUPPISD.root")
+      self.nameTag = "looserMETandPtRelCuts"
+      self.file_data              = ("singlemuandel_run2016_highmass_"+ self.nameTag +".root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
+      self.file_pseudodata        = ("pseudodata_highmass_"+ self.nameTag +".root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
+      self.file_WJets0_mc         = ("wjets_highmass_"+ self.nameTag +".root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
+      self.file_QCD_mc             = ("QCD_highmass_"+ self.nameTag +".root")# ("ExoDiBosonAnalysis.WWTree_VV_76X_PUPPISD.root")        
+      self.file_TTbar_mc          = ("ttbarTuneCUETP8M2T4_highmass_"+ self.nameTag +".root") #("ExoDiBosonAnalysis.WWTree_TTbar_powheg_76X_PUPPISD.root")
+      self.file_STop_mc           = ("ST_highmass_"+ self.nameTag +".root")# ("ExoDiBosonAnalysis.WWTree_STop_76X_PUPPISD.root")
     
       #self.file_data              = ("Data_2Trans.root")
       #self.file_WJets0_mc         = ("WJets_2Trans.root") 
@@ -716,7 +718,7 @@ class initialiseFits:
       # Define label used for plots and choosing fit paramters in PDFs/MakePdf.cxx  
       wp = "%.2f" %options.tau2tau1cutHP
       wp = wp.replace(".","v")
-      ptBin = "ptSubjet300to600_ttSF0p9"
+      ptBin = "ptSubjet300to500_ttSF0p9"
       self.wtagger_label = self.wtagger_label + "%s%s%s%s"%(wp,in_sample,postfix, ptBin ) 
 
       
@@ -1041,7 +1043,7 @@ class initialiseFits:
           ### Wtag mass window cut
           if  not ( 10. <=  self.ak8subjet0PuppiSD_m <= 140.) : continue
 
-          if not (300. <= self.ak8PuppiSDJetP4_Subjet0.Perp() <= 600.): continue
+          if not (300. <= self.ak8PuppiSDJetP4_Subjet0.Perp() <= 500.): continue
 
           SJtau1 = getattr(treeIn,"JetSDsubjet0tau1") 
           SJtau2 = getattr(treeIn,"JetSDsubjet0tau2")
@@ -1050,7 +1052,7 @@ class initialiseFits:
           if SJtau1 >= 0.1 :
             wtagger = SJtau2/ SJtau1
             #if fatjet0Mass < 210. : print"Fat jet mass is {0:2.2f} and tau32 is {1:2.2f} and SD subjet 0 mass is {2:2.2f}".format(fatjet0Mass, fatjetTau32, subjet0Mass)
-            if self.ak8subjet0PuppiSD_m > 50. : print"Fat jet SD subjet 0 mass is {0:2.2f} ,tau21 is {1:2.2f}, pt is {2:2.2f}".format( self.ak8PuppiSD_m , wtagger,  self.ak8PuppiSDJetP4_Subjet0.Perp() )
+            #if self.ak8subjet0PuppiSD_m > 50. : print"Fat jet SD subjet 0 mass is {0:2.2f} ,tau21 is {1:2.2f}, pt is {2:2.2f}".format( self.ak8PuppiSD_m , wtagger,  self.ak8PuppiSDJetP4_Subjet0.Perp() )
 
           else : wtagger = 10.
           if options.usePuppiSD:
@@ -1074,11 +1076,11 @@ class initialiseFits:
           
           if i==0: 
             tmp_scale_to_lumi =  getattr(treeIn2,"SemiLeptLumiweight")  ## weigth for xs and lumi
-          print "TString(label). {}".format(TString(label))
+          #print "TString(label). {}".format(TString(label))
           if not TString(label).Contains("data"):
             tmp_event_weight     =  getattr(treeIn2,"SemiLeptLumiweight") 
             tmp_event_weight4fit = getattr(treeIn2,"SemiLeptAllotherweights") * tmp_event_weight 
-            print"WEIGHT:::  tmp_event_weight4fit {0:2.2f} ".format( tmp_event_weight4fit )
+            #print"WEIGHT:::  tmp_event_weight4fit {0:2.2f} ".format( tmp_event_weight4fit )
             
           else:
             tmp_scale_to_lumi = 1.
@@ -1141,7 +1143,7 @@ class initialiseFits:
             rdataset_extremefailSubjetTau21cut_mj     .add(RooArgSet(rrv_mass_j), tmp_event_weight)
             rdataset4fit_extremefailSubjetTau21cut_mj .add(RooArgSet(rrv_mass_j), tmp_event_weight4fit )
 
-      print "THIS IS WHERE??"
+      #print "THIS IS WHERE??"
       print label
       print "rrv_scale_to_lumi"+label+"_"                       +self.channel
       rrv_scale_to_lumi                        = RooRealVar("rrv_scale_to_lumi"+label+"_"                       +self.channel,"rrv_scale_to_lumi"+label+"_"                       +self.channel,tmp_scale_to_lumi)
@@ -1218,7 +1220,7 @@ class initialiseFits:
       rrv_number_dataset_signal_region_error2_mj.Print()
       rrv_number_dataset_signal_region_before_cut_mj.Print()
       rrv_number_dataset_signal_region_before_cut_error2_mj.Print()
-      print "WHAT!!!"
+      #print "WHAT!!!"
       combData_p_f.Print("v")
       
 ### Start  main
