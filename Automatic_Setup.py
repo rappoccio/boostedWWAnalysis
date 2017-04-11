@@ -1,5 +1,3 @@
-
-#! /usr/bin/env python
 import os
 import glob
 import math
@@ -21,11 +19,21 @@ parser.add_option('--vclean', help='clean all the so files', type=int, default=0
 if __name__ == "__main__":
   
   # os.environ['ROOFITSYS'] = "ROOTSYS" # export ROOFITSYS=$ROOTSYS
+  
+  # For running on LPC
+  #ROOT.gSystem.AddIncludePath("-I$ROOFITSYS/include");
 
-  ROOT.gSystem.AddIncludePath("-I$ROOFITSYS/include");
+  #For running locally
+  ROOT.gSystem.AddIncludePath("-I$ROOTSYS/libexec/root6/include/root");
 
+  
   #Added this line - Michael
-  ROOT.gSystem.Load("$ROOFITSYS/lib/libRooFitCore.so")
+  # For running on LPC
+  #ROOT.gSystem.Load("$ROOFITSYS/lib/libRooFitCore.so")
+  #For running locally
+  ROOT.gSystem.Load("$ROOTSYS/libexec/root6/lib/root/libRooFitCore.so")
+  # $ROOFITSYS /opt/local/libexec/root6/   ROOFITCORE.SO         /opt/local/libexec/root6/lib/root/libRooFitCore.so
+
 
   inPath = os.getenv("PWD")
 
@@ -50,7 +58,7 @@ if __name__ == "__main__":
   ROOT.gSystem.Load("HWWLVJRooPdfs_cxx.so");
 
   #Add this line - Michael
-  ROOT.gSystem.Load("$ROOFITSYS/lib/libRooFit.so")
+  ROOT.gSystem.Load("$ROOTSYS/libexec/root6/lib/root/libRooFit.so")
 
   ROOT.gROOT.ProcessLine(".L MakePdf.cxx+");
   ROOT.gSystem.Load("MakePdf_cxx.so");
