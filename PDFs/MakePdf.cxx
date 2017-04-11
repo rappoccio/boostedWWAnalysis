@@ -936,9 +936,9 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
     if( model == "ErfExp_ttbar"){
 
-      double c0_tmp     = -2.7180e-02 ;      double c0_tmp_err     = 6.83e-03;
-      double offset_tmp =  8.6888e+01 ;      double offset_tmp_err = 9.35e+00;
-      double width_tmp  =  2.9860e+01 ;      double width_tmp_err  = 2.97e+00;
+      double c0_tmp     = -2.7180e-02 ;      double c0_tmp_err     = 0.1 ; //6.83e-03;
+      double offset_tmp =  8.6888e+01 ;      double offset_tmp_err = 11. //9.35e+00;
+      double width_tmp  =  2.9860e+01 ;      double width_tmp_err  = 5. ;2.97e+00;
 
       if(TString(wtagger_label.c_str()).Contains("76X")){
         c0_tmp     = -1.9681e-02 ;
@@ -958,8 +958,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
       
       if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){
         c0_tmp     =  -2.7046e-02 ; // PARAMETERS 1 erfexp_ttbar puppi SD     
-        offset_tmp =  9.0122e+01 ;// was 8.2122e+01      
-        width_tmp  =  2.9595e+01 ; 
+        offset_tmp =   8.2122e+01 ;// was 8.2122e+01      
+        width_tmp  =  5. ; // was 2.9595e+01
       }
       
       
@@ -1375,11 +1375,11 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
     }
   }  
   else if( TString(label).Contains("fakeW")){ // Background component of ttbar fit
-    if( model == "GausErfExp_ttbar"){
+    if( model == "GausErfExp_ttbar_fakeW"){
 
-      double mean1_tmp = 8.1653e+01;
-      double sigma1_tmp = 12.5932e+00;
-      float rangeMean = 11. ;
+      double mean1_tmp =  8.553e+01; // 8.153e+01;
+      double sigma1_tmp = 8.5932e+00;
+      float rangeMean = 5. ;
       float rangeWidth = 5. ;
       double frac_tmp = 0.6;
       double c0_tmp     = -2.7180e-02 ;      //double c0_tmp_err     = 6.83e-03;
