@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from optparse import OptionParser
 import ROOT
 import sys
@@ -24,8 +25,12 @@ parser.add_option('--usePuppiSD',dest="usePuppiSD", default=True, action="store_
 (options, args) = parser.parse_args()
 
 #Added these 2 lines - Michael
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+# For running on lpc
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+# For running on local machine
+ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFitCore.so")
+ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFit.so")
 
 ROOT.gSystem.Load(".//PlotStyle/Util_cxx.so")
 ROOT.gSystem.Load(".//PlotStyle/PlotUtils_cxx.so")
