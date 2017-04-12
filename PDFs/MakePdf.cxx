@@ -937,8 +937,8 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
     if( model == "ErfExp_ttbar"){
 
       double c0_tmp     = -2.7180e-02 ;      double c0_tmp_err     = 0.1 ; //6.83e-03;
-      double offset_tmp =  8.6888e+01 ;      double offset_tmp_err = 11. //9.35e+00;
-      double width_tmp  =  2.9860e+01 ;      double width_tmp_err  = 5. ;2.97e+00;
+      double offset_tmp =  8.6888e+01 ;      double offset_tmp_err = 11.; //9.35e+00;
+      double width_tmp  =  2.9860e+01 ;      double width_tmp_err  = 5. ; //2.97e+00;
 
       if(TString(wtagger_label.c_str()).Contains("76X")){
         c0_tmp     = -1.9681e-02 ;
