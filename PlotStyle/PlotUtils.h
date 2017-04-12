@@ -1,3 +1,6 @@
+#ifndef Utils_PlotUtils_h
+#define Utils_PlotUtils_h
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -28,7 +31,7 @@
 
 #include "Util.h"
 
-#include "CMS_lumi.C"
+void CMS_lumi( TPad* pad, int iPeriod=3, int iPosX=10, TString eet="" );
 
 
 void GetDataPoissonInterval(const RooAbsData*, RooRealVar*, RooPlot*, const int & = 1); 
@@ -54,3 +57,6 @@ void setTDRStyle();
 //
 float GetLumi(const std::string & = "em");
 
+
+
+#endif

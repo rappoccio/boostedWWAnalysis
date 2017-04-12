@@ -1,3 +1,6 @@
+#ifndef BiasStudy_BiasUtils_h
+#define BiasStudy_BiasUtils_h
+
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -100,3 +103,6 @@ class biasModelAnalysis{
    int   nevents_ ;
 };
 
+
+
+#endif

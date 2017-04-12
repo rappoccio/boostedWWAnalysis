@@ -1,5 +1,5 @@
-#ifndef CMS_lumi_h
-#define CMS_lumi_h
+#ifndef PlotStyle_globals_h
+#define PlotStyle_globals_h
 
 #include "TPad.h"
 #include "TLatex.h"
@@ -39,9 +39,6 @@ TString lumi_7TeV  = "5.1 fb^{-1}";
 TString lumi_sqrtS = "";
 
 bool drawLogo      = false;
-
-void CMS_lumi( TPad* pad, int iPeriod=3, int iPosX=10, TString eet="" );
-
 
 
 #endif

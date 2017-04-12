@@ -1,3 +1,6 @@
+#ifndef PDFs_MakePdf_h
+#define PDFs_MakePdf_h
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -59,3 +62,6 @@ RooAbsPdf* get_WJets_mlvj_Model  (RooWorkspace*, const std::string & = "_WJets0"
 void fix_Model(RooWorkspace*, const std::string & = "", const std::string & = "_signal_region", const std::string & = "_mlvj", const std::string & = "",const std::string & = "em", const std::string & = "", const int & = 0);
 void fix_Pdf (RooAbsPdf*, RooArgSet*);
 void ShowParam_Pdf(RooAbsPdf*,RooArgSet*);
+
+
+#endif

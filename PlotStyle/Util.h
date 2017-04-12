@@ -1,3 +1,6 @@
+#ifndef PlotStyle_Util_h
+#define PlotStyle_Util_h
+
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -70,3 +73,6 @@ void draw_error_band_extendPdf_ratio(RooAbsData*, RooAbsPdf*, RooFitResult*, Roo
 double Calc_error_extendPdf(RooAbsData*,RooExtendPdf*,RooFitResult*,const std::string & = "",const int & = 2000);
 
 double Calc_error(std::string,std::string,RooArgList*,RooWorkspace*,const std::string & = "",const int & = 2000);
+
+
+#endif
