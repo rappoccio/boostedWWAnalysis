@@ -611,21 +611,17 @@ class initialiseFits:
         
       # Fit functions used in simultaneous fit of pass and fail categories
       self.mj_shape["bkg_mc_fail"]          = "ErfExp"# "GausErfExp_ttbar_failSubjetTau21cut"
-#      self.mj_shape["bkg_mc_fail"]          = "Exp"
       self.mj_shape["bkg_data_fail"]        = "ErfExp" #"GausErfExp_ttbar_failSubjetTau21cut"
-#      self.mj_shape["bkg_data_fail"]        = "Exp"    
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
 #      self.mj_shape["signal_data_fail"]     = "GausExp_failSubjetTau21cut"
-      self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" #"GausErfExp_ttbar_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
+      self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
       self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
 
       self.mj_shape["bkg_data"]             =  "ErfExp_ttbar"
       self.mj_shape["bkg_mc"]               = "ErfExp_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
-#      self.mj_shape["signal_data"]          = "ExpGaus"
       self.mj_shape["signal_data"]          = "GausErfExp_ttbar" #Before 2Gaus_ttbar
-#      self.mj_shape["signal_mc"]            = "ExpGaus"
       self.mj_shape["signal_mc"]            = "GausErfExp_ttbar"
       
 #      if (options.useDDT): 
@@ -676,7 +672,7 @@ class initialiseFits:
       rrv_mass_j.setRange("sb_lo",self.mj_sideband_lo_min,self.mj_sideband_lo_max) # 30-65 GeV
       rrv_mass_j.setRange("signal_region",self.mj_signal_min,self.mj_signal_max)   # 65-105 GeV
       rrv_mass_j.setRange("sb_hi",self.mj_sideband_hi_min,self.mj_sideband_hi_max) # 105-135 GeV
-      rrv_mass_j.setRange("controlsample_fitting_range",40,140) # ---> what is this????
+      rrv_mass_j.setRange("controlsample_fitting_range",45,140) # ---> what is this????
         
 
       # Directory and input files
@@ -745,13 +741,13 @@ class initialiseFits:
       self.vpt_cut      = 200   # hadronic and leptonic W cut
       self.mass_lvj_max = 5000. # invariant mass of 3 body max
       self.mass_lvj_min = 0.    # invariant mass of 3 body min
-      self.pfMET_cut    = 50.    # missing transverse energy
+      self.pfMET_cut    = 40.    # missing transverse energy
       self.lpt_cut      = 53.    # lepton pT
       self.AK8_pt_min   = 200.
-      self.AK8_pt_max   = 5000.
+      self.AK8_pt_max   = 10000.
       if self.channel  == "el":
-        self.pfMET_cut = 120.
-        self.lpt_cut = 55.      
+        self.pfMET_cut = 80.
+        self.lpt_cut = 53.      
       
       # Out .txt file with final SF numbers
       self.file_ttbar_control_txt = "WtaggingSF"+str(self.wtagger_label)+".txt"
@@ -915,7 +911,7 @@ class initialiseFits:
         self.file_out_ttbar_control.write("wtagger_eff_reweight   = %s +/- %s\n"%(wtagger_eff_reweight, wtagger_eff_reweight_err))
             
     # Loop over trees
-    def get_mj_dataset(self,in_file_name, label, jet_mass="Whadr_pruned"): 
+    def get_mj_dataset(self,in_file_name, label, jet_mass= "JetPuppiSDsubjet0mass" ): 
 
       if options.usePuppiSD or options.useDDT or options.useN2DDT: 
         jet_mass="JetPuppiSDsubjet0mass"

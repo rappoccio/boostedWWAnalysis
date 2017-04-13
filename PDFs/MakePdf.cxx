@@ -1377,11 +1377,11 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
   else if( TString(label).Contains("fakeW")){ // Background component of ttbar fit
     if( model == "GausErfExp_ttbar_fakeW"){
 
-      double mean1_tmp =  8.553e+01; // 8.153e+01;
+      double mean1_tmp =  8.553e+01;         // 8.153e+01;
       double sigma1_tmp = 8.5932e+00;
-      float rangeMean = 5. ;
-      float rangeWidth = 5. ;
-      double frac_tmp = 0.6;
+      float rangeMean =   5. ;
+      float rangeWidth =  5. ;
+      double frac_tmp =   0.6;
       double c0_tmp     = -2.7180e-02 ;      //double c0_tmp_err     = 6.83e-03;
       double offset_tmp =  8.6888e+01 ;      //double offset_tmp_err = 9.35e+00;
       double width_tmp  =  2.9860e+01 ;      //double width_tmp_err  = 2.97e+00;  

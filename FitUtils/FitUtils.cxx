@@ -78,12 +78,12 @@ void fit_mj_single_MC(RooWorkspace* workspace, const std::string & fileName, con
   
 
 	// ## draw the error band for an extend pdf
-	draw_error_band_extendPdf(rdataset_mj,model_pdf,rfresult,mplot,2,"L");
+	draw_error_band_extendPdf(rdataset_mj,model_pdf,rfresult,mplot,40,"L");
 	model_pdf->plotOn(mplot,RooFit::Name( "Gaussian comp. 1" ),RooFit::Components("gaus1*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+3));
 	model_pdf->plotOn(mplot,RooFit::Name( "Gaussian comp. 2" ),RooFit::Components("gaus2*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+4));
-	model_pdf->plotOn(mplot,RooFit::Name( "ErfExp comp." ),RooFit::Components("erfExp*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+3));
-	model_pdf->plotOn(mplot,RooFit::Name( "Exp. comp." ),RooFit::Components("exp*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+2));
-	model_pdf->plotOn(mplot,RooFit::Name( "Chebychev comp." ),RooFit::Components("cheb*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+3));
+	model_pdf->plotOn(mplot,RooFit::Name( "ErfExp comp." ),RooFit::Components("erfExp*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kCyan));
+	model_pdf->plotOn(mplot,RooFit::Name( "Exp. comp." ),RooFit::Components("exp*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed+10));
+	model_pdf->plotOn(mplot,RooFit::Name( "Chebychev comp." ),RooFit::Components("cheb*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kGreen+3));
 	model_pdf->plotOn(mplot,RooFit::Name((model).c_str() )); // remove RooFit.VLines() in order to get right pull in the 1st bin
 
 /*        model_pdf_combined->plotOn(mplot,RooFit::Name( "Gaussian comp. 1" ),RooFit::Components("gaus1*"),RooFit::LineStyle(kDashed),RooFit::LineColor(kGreen+3));
@@ -459,22 +459,22 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
 
 
   //pass plots
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_line_invisible"), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+ // model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_line_invisible"), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName()  );
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_realW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged->GetName(),model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName()  );
+//  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_realW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(),model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_fakeW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged->GetName(),model_histpdf_STop->GetName(),model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+//  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("TTbar_fakeW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s",model_histpdf_STop->GetName(), model_histpdf_VV->GetName(), model_histpdf_WJets->GetName());
-  cut.Form("%s,%s,%s",model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("STop_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s,%s,%s",model_histpdf_STop->GetName(), model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+//  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("STop_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s",model_histpdf_VV->GetName(),model_histpdf_WJets->GetName());
 //  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("VV_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
-  cut.Form("%s,%s",model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("WJets_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
-  cut.Form("%s",model_histpdf_QCD->GetName());
-  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("QCD_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+ // cut.Form("%s,%s",model_histpdf_WJets->GetName(),  model_histpdf_QCD->GetName() );
+//  model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("WJets_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+ // cut.Form("%s",model_histpdf_QCD->GetName());
+ // model_TTbar_STop_QCD_WJets->plotOn(xframe_data,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets),RooFit::Name("QCD_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
   
  
  
@@ -532,22 +532,22 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
   // model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("WJets"),RooFit::Components(cut.Data()), RooFit::DrawOption("F"), RooFit::FillColor(color_palet["WJets"]), RooFit::LineColor(kBlack), RooFit::VLines());
 
   //solid line
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_line_invisible"), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_line_invisible"), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s,%s",model_histpdf_TTbar_merged_fail->GetName(),model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_VV_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_merged_fail->GetName(),model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_realW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+ // cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_merged_fail->GetName(),model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
+//  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_realW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 //  cut.Form("%s,%s,%s,%s",model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_VV_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  cut.Form("%s,%s,%s",model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_fakeW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+ // cut.Form("%s,%s,%s",model_histpdf_TTbar_unmerged_fail->GetName(),model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
+ // model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("TTbar_fakeW_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
  
  
 //  cut.Form("%s,%s,%s",model_histpdf_STop_fail->GetName(), model_histpdf_VV_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  cut.Form("%s,%s",model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("STop_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
-  cut.Form("%s,%s",model_histpdf_QCD_fail->GetName(), model_histpdf_WJets_fail->GetName());
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("QCD_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
-  cut.Form("%s", model_histpdf_WJets_fail->GetName());
-  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("WJets_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s,%s",model_histpdf_STop_fail->GetName(), model_histpdf_WJets_fail->GetName());
+//  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("STop_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s,%s",model_histpdf_QCD_fail->GetName(), model_histpdf_WJets_fail->GetName());
+//  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("QCD_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
+//  cut.Form("%s", model_histpdf_WJets_fail->GetName());
+//  model_TTbar_STop_QCD_WJets_fail->plotOn(xframe_data_fail,RooFit::Normalization(scale_number_TTbar_STop_QCD_WJets_fail),RooFit::Name("WJets_line_invisible"),RooFit::Components(cut.Data()), RooFit::LineColor(kBlack), RooFit::LineWidth(2), RooFit::VLines());
 
 
   //fail plots -> plot MC fit
@@ -556,7 +556,7 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
   combData_p_f_data->plotOn(xframe_data_fail,RooFit::Name("data_invisible"),RooFit::Cut(cut.Data()),RooFit::MarkerSize(1.5),RooFit::DataError(RooAbsData::SumW2),RooFit::XErrorSize(0));
   simPdf_TotalMC->plotOn(xframe_data_fail,RooFit::Name("MC fit")    ,RooFit::Slice(*category_p_f,"fail"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_TotalMC),RooFit::NormRange("controlsample_fitting_range"), RooFit::LineStyle(kSolid), RooFit::LineColor(kRed));
 //  cut.Form("model_bkg_TotalMC_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_VV_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
-  cut.Form("model_bkg_TotalMC_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str());
+  cut.Form("model_bkg_TotalMC_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj,model_QCD_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
   simPdf_TotalMC->plotOn(xframe_data_fail,RooFit::Name("MC fit bkg"),RooFit::Slice(*category_p_f,"fail"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_TotalMC),RooFit::NormRange("controlsample_fitting_range"), RooFit::Components(cut.Data()), RooFit::LineColor(kRed), RooFit::LineStyle(kDashed));
 
   //fail plots -> plot data fit
@@ -566,16 +566,16 @@ void DrawScaleFactorTTbarControlSample(RooWorkspace* workspace, std::map<std::st
   simPdf_data->plotOn(xframe_data_fail,RooFit::Name("Data fit"),RooFit::Slice(*category_p_f,"fail"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_data),RooFit::NormRange("controlsample_fitting_range"),RooFit::LineStyle(kSolid), RooFit::LineColor(kBlue));
   simPdf_data->plotOn(xframe_data_fail,RooFit::Name("data_fit_invisible"),RooFit::Slice(*category_p_f,"fail"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_data),RooFit::NormRange("controlsample_fitting_range"));
 //  cut.Form("model_bkg_data_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_VV_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str(),channel.c_str());
-  cut.Form("model_bkg_data_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str());
+  cut.Form("model_bkg_data_failSubjetTau21cut_%s_mj,model_STop_failSubjetTau21cut_%s_mj,model_WJets0_failSubjetTau21cut_%s_mj,model_QCD_failSubjetTau21cut_%s_mj",channel.c_str(),channel.c_str(),channel.c_str());
   simPdf_data->plotOn(xframe_data_fail,RooFit::Name("data fit bkg"),RooFit::Slice(*category_p_f,"fail"),RooFit::ProjWData(RooArgSet(*category_p_f),*combData_p_f_data),RooFit::NormRange("controlsample_fitting_range"), RooFit::Components(cut.Data()),RooFit::LineStyle(kDashed), RooFit::LineColor(kBlue));
 
   // //signal window
-//   TLine* lowerLine = new TLine(65,0.,65,xframe_data->GetMaximum()*0.7); lowerLine->SetLineWidth(2); lowerLine->SetLineColor(kBlack); lowerLine->SetLineStyle(9);
-//   TLine* upperLine = new TLine(105,0.,105,xframe_data->GetMaximum()*0.7); upperLine->SetLineWidth(2); upperLine->SetLineColor(kBlack); upperLine->SetLineStyle(9);
-//   xframe_data->addObject(lowerLine); xframe_data->addObject(upperLine);
-//   lowerLine = new TLine(65,0.,65,xframe_data_fail->GetMaximum()*0.7); lowerLine->SetLineWidth(2); lowerLine->SetLineColor(kBlack); lowerLine->SetLineStyle(9);
-//   upperLine = new TLine(105,0.,105,xframe_data_fail->GetMaximum()*0.7); upperLine->SetLineWidth(2); upperLine->SetLineColor(kBlack); upperLine->SetLineStyle(9);
-//   xframe_data_fail->addObject(lowerLine); xframe_data_fail->addObject(upperLine);
+   TLine* lowerLine = new TLine(65,0.,65,xframe_data->GetMaximum()*0.7); lowerLine->SetLineWidth(2); lowerLine->SetLineColor(kBlack); lowerLine->SetLineStyle(9);
+   TLine* upperLine = new TLine(105,0.,105,xframe_data->GetMaximum()*0.7); upperLine->SetLineWidth(2); upperLine->SetLineColor(kBlack); upperLine->SetLineStyle(9);
+   xframe_data->addObject(lowerLine); xframe_data->addObject(upperLine);
+   lowerLine = new TLine(65,0.,65,xframe_data_fail->GetMaximum()*0.7); lowerLine->SetLineWidth(2); lowerLine->SetLineColor(kBlack); lowerLine->SetLineStyle(9);
+   upperLine = new TLine(105,0.,105,xframe_data_fail->GetMaximum()*0.7); upperLine->SetLineWidth(2); upperLine->SetLineColor(kBlack); upperLine->SetLineStyle(9);
+   xframe_data_fail->addObject(lowerLine); xframe_data_fail->addObject(upperLine);
 
   // TLegend* leg_data = legend4Plot(xframe_data,0,-0.2,0.07,0.04,0.,1,channel);
   // xframe_data->addObject(leg_data);
