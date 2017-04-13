@@ -28,7 +28,7 @@
 
 #include "Util.h"
 
-#include "CMS_lumi.C"
+#include "CMS_lumi.h"
 
 
 void GetDataPoissonInterval(const RooAbsData*, RooRealVar*, RooPlot*, const int & = 1); 
