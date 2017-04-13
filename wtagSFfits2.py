@@ -26,8 +26,8 @@ parser.add_option('--usePuppiSD',dest="usePuppiSD", default=True, action="store_
 
 #Added these 2 lines - Michael
 # For running on lpc
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
 # For running on local machine
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFitCore.so")
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFit.so")
@@ -618,11 +618,11 @@ class initialiseFits:
       self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
       self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["bkg_data"]             =  "ErfExp_ttbar"
-      self.mj_shape["bkg_mc"]               = "ErfExp_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
+      self.mj_shape["bkg_data"]             = "GausChebychev_ttbar"
+      self.mj_shape["bkg_mc"]               = "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
-      self.mj_shape["signal_data"]          = "GausErfExp_ttbar" #Before 2Gaus_ttbar
-      self.mj_shape["signal_mc"]            = "GausErfExp_ttbar"
+      self.mj_shape["signal_data"]          = "2Gaus_ttbar" #Before 2Gaus_ttbar
+      self.mj_shape["signal_mc"]            = "2Gaus_ttbar"
       
 #      if (options.useDDT): 
 #        self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
@@ -676,7 +676,8 @@ class initialiseFits:
         
 
       # Directory and input files
-      self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      #self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
 #"/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
 #      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
       # self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag/PRUNED/WWTree_%s/"%(self.channel)
@@ -814,8 +815,8 @@ class initialiseFits:
         print ""
 
         self.get_mj_dataset(self.file_TTbar_mc,"_TTbar")
-        self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_realW")
-        self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_fakeW")
+        #self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_realW")
+        #self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_fakeW")
 
         # Get dataset used for fit to total MC
         print "################################################"
