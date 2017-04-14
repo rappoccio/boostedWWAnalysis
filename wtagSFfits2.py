@@ -621,8 +621,8 @@ class initialiseFits:
       self.mj_shape["bkg_data"]             = "GausChebychev_ttbar"
       self.mj_shape["bkg_mc"]               = "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
-      self.mj_shape["signal_data"]          = "2Gaus_ttbar" #Before 2Gaus_ttbar
-      self.mj_shape["signal_mc"]            = "2Gaus_ttbar"
+      self.mj_shape["signal_data"]          = "Gaus" #Before 2Gaus_ttbar
+      self.mj_shape["signal_mc"]            = "Gaus_ttbar"
       
 #      if (options.useDDT): 
 #        self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 

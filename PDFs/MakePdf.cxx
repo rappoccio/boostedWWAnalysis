@@ -749,42 +749,13 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
       return model_pdf ;
     }
 
-    if( model == "2Gaus_ttbar"){
+    if( model == "Gaus_ttbar"){
 
       double mean1_tmp = 80.5;
       double sigma1_tmp = 8.1149e+00;
       float rangeMean = 8. ;
       float rangeWidth = 5. ;
-      float frac_tmp = 8.3460e-01 ;
-      float deltamean_tmp  = 9.499 ;
-      float scalesigma_tmp = 2.5752;
 
-
-
-      if(TString(wtagger_label.c_str()).Contains("76X")){
-        frac_tmp = 7.3739e-01 ; 
-        deltamean_tmp  = 7.81599999999998829e+00 ;
-        scalesigma_tmp = 2.74416583258705149e+00;
-      }
-      if( TString(wtagger_label.c_str()).Contains("PuppiSD") ){
-        mean1_tmp = 82.85;
-        sigma1_tmp = 9.65;
-        // frac_tmp = 6.9510e-01 ;
-        deltamean_tmp  = 3.499 ;
-        scalesigma_tmp = 2.5752;
-      }
-      
-      
-      if(TString(wtagger_label.c_str()).Contains("DDT")){
-        mean1_tmp = 8.5423e+01;   
-        sigma1_tmp = 7.1694e+00 ;            
-        rangeMean = 6. ;
-        rangeWidth = 5. ;
-        frac_tmp = 8.2613e-01 ;
-        deltamean_tmp  = 4.4964e-13 ;
-        scalesigma_tmp = 2.5898e+00;
-      }
-      
 
       RooRealVar* rrv_mean1_gaus  = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),mean1_tmp, mean1_tmp-rangeMean, mean1_tmp+rangeMean);
       RooRealVar* rrv_sigma1_gaus = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),sigma1_tmp, sigma1_tmp-rangeWidth,sigma1_tmp+rangeWidth );
@@ -802,17 +773,18 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
       RooGaussian* gaus1 = new RooGaussian(("gaus1"+label+"_"+channel+spectrum).c_str(),("gaus1"+label+"_"+channel+spectrum).c_str(),*rrv_x,*rrv_mean1_gaus,*rrv_sigma1_gaus);
 
-      RooRealVar* rrv_deltamean_gaus  = new RooRealVar(("rrv_deltamean_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_deltamean_gaus"+label+"_"+channel+spectrum).c_str(),deltamean_tmp);
-      RooFormulaVar* rrv_mean2_gaus   = new RooFormulaVar(("rrv_mean2_gaus"+label+"_"+channel+spectrum).c_str(),"@0+@1",RooArgList(*rrv_mean1_gaus,*rrv_deltamean_gaus));
-      RooRealVar* rrv_scalesigma_gaus = new RooRealVar(("rrv_scalesigma_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_scalesigma_gaus"+label+"_"+channel+spectrum).c_str(),scalesigma_tmp);
-      RooFormulaVar* rrv_sigma2_gaus  = new RooFormulaVar(("rrv_sigma2_gaus"+label+"_"+channel+spectrum).c_str(),"@0*@1", RooArgList(*rrv_sigma1_gaus,*rrv_scalesigma_gaus));
-      RooGaussian* gaus2 = new RooGaussian(("gaus2"+label+"_"+channel+spectrum).c_str(),("gaus2"+label+"_"+channel+spectrum).c_str(), *rrv_x,*rrv_mean2_gaus,*rrv_sigma2_gaus);
+      return gaus1 ;
+    }
 
-      RooRealVar* rrv_frac = new RooRealVar(("rrv_frac"+label+"_"+channel+spectrum).c_str(),("rrv_frac"+label+"_"+channel+spectrum).c_str(),frac_tmp);//,frac_tmp-frac_tmp_err,frac_tmp+frac_tmp_err);
-      RooAddPdf* model_pdf = new RooAddPdf(("model_pdf"+label+"_"+channel+spectrum).c_str(),("model_pdf"+label+"_"+channel+spectrum).c_str(),RooArgList(*gaus1,*gaus2),RooArgList(*rrv_frac),1);
+    if( model == "Gaus"){
+
+      RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,40,100);
+      RooRealVar* rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,0.,15);  
+      RooGaussian* model_pdf       = new RooGaussian(("gaus"+label+"_"+channel+spectrum).c_str(),("gaus"+label+"_"+channel+spectrum).c_str(), *rrv_x,*rrv_mean1_gaus,*rrv_sigma1_gaus);
 
       return model_pdf ;
     }
+
 
     if( model == "GausChebychev_ttbar_failSubjetTau21cut"){
 
