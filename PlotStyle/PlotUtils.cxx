@@ -502,15 +502,15 @@ void draw_canvas(RooPlot* in_obj, const std::string & in_directory, const TStrin
   system(std::string("mkdir -p "+Directory).c_str());
 
   TString rlt_file(Directory.Data()+in_file_name);
-  if(rlt_file.EndsWith(".root")) rlt_file.ReplaceAll(".root","_rlt_without_pull_and_paramters.pdf");
+  if(rlt_file.EndsWith(".root")) rlt_file.ReplaceAll(".root","_rlt_without_pull_and_paramters.png");
   else{
          rlt_file.ReplaceAll(".root","");
-         rlt_file = rlt_file.Append(".pdf");
+         rlt_file = rlt_file.Append(".png");
   }
   
   cMassFit->SaveAs(rlt_file.Data());
 
-  rlt_file.ReplaceAll(".pdf",".root");
+  rlt_file.ReplaceAll(".png",".root");
   cMassFit->SaveAs(rlt_file.Data());
 
   if(logy){
@@ -519,7 +519,7 @@ void draw_canvas(RooPlot* in_obj, const std::string & in_directory, const TStrin
       cMassFit->Update();
       rlt_file.ReplaceAll(".root","_log.root");
       cMassFit->SaveAs(rlt_file.Data());
-      rlt_file.ReplaceAll(".root",".pdf");
+      rlt_file.ReplaceAll(".root",".png");
       cMassFit->SaveAs(rlt_file.Data());
   }
 
@@ -606,18 +606,18 @@ void draw_canvas_with_pull(RooPlot* mplot, RooPlot* mplot_pull, RooArgList* para
   TString rlt_file;  rlt_file.Form("%s%s",Directory.Data(),in_file_name.c_str());
   if(rlt_file.EndsWith(".root")){
     TString(in_model_name).ReplaceAll(".root","");
-    rlt_file.ReplaceAll(".root","_"+in_model_name+"_with_pull.pdf");
+    rlt_file.ReplaceAll(".root","_"+in_model_name+"_with_pull.png");
   }   
   else{    
     TString(in_model_name).ReplaceAll(".root","");
     rlt_file.ReplaceAll(".root","");
-    rlt_file = rlt_file.Append("_"+in_model_name+"_with_pull.pdf");
+    rlt_file = rlt_file.Append("_"+in_model_name+"_with_pull.png");
   }
   
   pad2->Update();
   cMassFit.Update();
   cMassFit.SaveAs(rlt_file.Data());
-  rlt_file.ReplaceAll(".pdf",".root");
+  rlt_file.ReplaceAll(".png",".root");
   cMassFit.SaveAs(rlt_file.Data());
   TString string_file_name (in_file_name);
   if(string_file_name.EndsWith(".root"))
@@ -634,7 +634,7 @@ void draw_canvas_with_pull(RooPlot* mplot, RooPlot* mplot_pull, RooArgList* para
      cMassFit.Update();
      rlt_file.ReplaceAll(".root","_log.root");
      cMassFit.SaveAs(rlt_file.Data());
-     rlt_file.ReplaceAll(".root",".pdf");
+     rlt_file.ReplaceAll(".root",".png");
      cMassFit.SaveAs(rlt_file.Data());
   }
  

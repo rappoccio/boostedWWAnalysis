@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/Usr50/bin/env python
 from optparse import OptionParser
 import ROOT
 import sys
@@ -11,7 +11,7 @@ from ROOT import *
 parser = OptionParser()
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.55)
+parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.35)
 parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
 parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg")
 parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
@@ -26,8 +26,8 @@ parser.add_option('--usePuppiSD',dest="usePuppiSD", default=True, action="store_
 
 #Added these 2 lines - Michael
 # For running on lpc
-#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
-#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
 # For running on local machine
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFitCore.so")
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFit.so")
@@ -222,7 +222,7 @@ def getSF():
 
 def doFitsToMatchedTT():
     workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")
-    ttMC_fitter = initialiseFits("em", options.sample, 40, 140, workspace4fit_)
+    ttMC_fitter = initialiseFits("em", options.sample, 50, 140, workspace4fit_)
 
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_realW")
     ttMC_fitter.get_mj_dataset(ttMC_fitter.file_TTbar_mc,"_TTbar_fakeW")
@@ -242,7 +242,7 @@ def doFitsToMatchedTT():
         
 def doFitsToMC():
     workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")
-    boostedW_fitter_em = initialiseFits("em", options.sample, 40, 140, workspace4fit_)
+    boostedW_fitter_em = initialiseFits("em", options.sample, 50, 140, workspace4fit_)
     boostedW_fitter_em.get_datasets_fit_minor_bkg()
     print "Finished fitting MC! Plots can be found in plots_*_MCfits. Printing workspace:"
     workspace4fit_.Print()
@@ -377,7 +377,7 @@ def GetWtagScalefactors(workspace,fitter):
 class doWtagFits:
     def __init__(self):
         self.workspace4fit_ = RooWorkspace("workspace4fit_","workspace4fit_")                           # create workspace
-        self.boostedW_fitter_em = initialiseFits("em", options.sample, 40, 140, self.workspace4fit_)    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
+        self.boostedW_fitter_em = initialiseFits("em", options.sample, 50, 140, self.workspace4fit_)    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
         self.boostedW_fitter_em.get_datasets_fit_minor_bkg()                                            # Loop over intrees to create datasets om Mj and fit the single MCs.
        
         print "Printing workspace:"; self.workspace4fit_.Print(); print ""
@@ -550,7 +550,7 @@ class doWtagFits:
 class initialiseFits:
 
     # Constructor: Input is channel (mu,ele,em), range in mj and a workspace
-    def __init__(self, in_channel, in_sample, in_mj_min=40, in_mj_max=140, input_workspace=None):
+    def __init__(self, in_channel, in_sample, in_mj_min=50, in_mj_max=140, input_workspace=None):
       
       RooAbsPdf.defaultIntegratorConfig().setEpsRel(1e-9)
       RooAbsPdf.defaultIntegratorConfig().setEpsAbs(1e-9)
@@ -610,19 +610,19 @@ class initialiseFits:
 #        self.mj_shape["STop"]               = "ExpGaus"  
         
       # Fit functions used in simultaneous fit of pass and fail categories
-      self.mj_shape["bkg_mc_fail"]          = "ErfExp"# "GausErfExp_ttbar_failSubjetTau21cut"
-      self.mj_shape["bkg_data_fail"]        = "ErfExp" #"GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_mc_fail"]          =  "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_data_fail"]        = "GausErfExp_ttbar_failSubjetTau21cut"
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
 #      self.mj_shape["signal_data_fail"]     = "GausExp_failSubjetTau21cut"
-      self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
+      self.mj_shape["signal_mc_fail"]       = "GausErfExp_ttbar_failSubjetTau21cut" #"GausChebychev_ttbar_failSubjetTau21cut" 
       self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["bkg_data"]             = "GausChebychev_ttbar"
-      self.mj_shape["bkg_mc"]               = "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
+      self.mj_shape["bkg_data"]             = "ErfExp_ttbar"  # "GausChebychev_ttbar"
+      self.mj_shape["bkg_mc"]               = "ErfExp_ttbar" # "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
-      self.mj_shape["signal_data"]          = "2Gaus_ttbar" #Before 2Gaus_ttbar
-      self.mj_shape["signal_mc"]            = "2Gaus_ttbar"
+      self.mj_shape["signal_data"]          = "Gaus" #Before 2Gaus_ttbar
+      self.mj_shape["signal_mc"]            = "Gaus_ttbar"
       
 #      if (options.useDDT): 
 #        self.mj_shape["signal_mc_fail"]       = "GausChebychev_ttbar_failSubjetTau21cut" 
@@ -672,12 +672,12 @@ class initialiseFits:
       rrv_mass_j.setRange("sb_lo",self.mj_sideband_lo_min,self.mj_sideband_lo_max) # 30-65 GeV
       rrv_mass_j.setRange("signal_region",self.mj_signal_min,self.mj_signal_max)   # 65-105 GeV
       rrv_mass_j.setRange("sb_hi",self.mj_sideband_hi_min,self.mj_sideband_hi_max) # 105-135 GeV
-      rrv_mass_j.setRange("controlsample_fitting_range",45,140) # ---> what is this????
+      rrv_mass_j.setRange("controlsample_fitting_range",50,140) # ---> what is this????
         
 
       # Directory and input files
-      #self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
-      self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
+      self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      #self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
 #"/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
 #      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
       # self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag/PRUNED/WWTree_%s/"%(self.channel)
@@ -689,7 +689,7 @@ class initialiseFits:
 
       postfix = ""
       if options.use76X: postfix ="_76X"  
-      self.nameTag = "looserMETandPtRelCuts"
+      self.nameTag = "noTopTagSkimWeights3"  #"looserMETandPtRelCuts"    #"noTopTagSkimWeights3" #"looserMETandPtRelCuts"
       self.file_data              = ("singlemuandel_run2016_highmass_"+ self.nameTag +".root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
       self.file_pseudodata        = ("pseudodata_highmass_"+ self.nameTag +".root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
       self.file_WJets0_mc         = ("wjets_highmass_"+ self.nameTag +".root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
@@ -1043,7 +1043,7 @@ class initialiseFits:
           if  not ( fatjetTau32 < 0.8 ) : continue
 
           ### Wtag mass window cut
-          if  not ( 10. <=  self.ak8subjet0PuppiSD_m <= 140.) : continue
+          #if  not ( 10. <=  self.ak8subjet0PuppiSD_m <= 140.) : continue
 
           if not (300. <= self.ak8PuppiSDJetP4_Subjet0.Perp() <= 500.): continue
 
