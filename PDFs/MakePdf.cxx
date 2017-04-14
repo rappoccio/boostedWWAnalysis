@@ -349,23 +349,26 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
   if(TString(spectrum).Contains("_mj"))   rrv_x = workspace->var("rrv_mass_j");
   if(TString(spectrum).Contains("_mlvj")) rrv_x = workspace->var("rrv_mass_lvj");  
   
-  
+  std::cout << "Hi there" << std::endl;
   // Fits for data and MC (not matched tt)
   if( !(TString(label).Contains("realW")) and !(TString(label).Contains("fakeW")) ){
     // ??? exp 
     if( model == "Exp"){
+      std::cout << "Making exp" << std::endl;
       std::cout<< "######### Exp = levelled exp funtion for W+jets mlvj ############" <<std::endl;
       RooRealVar* rrv_c_Exp = new RooRealVar(("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),-0.030, -2., 0.05);
       RooExponential* model_pdf_exp = new RooExponential(("model_pdf"+label+"_"+channel+spectrum).c_str(),("model_pdf"+label+"_"+channel+spectrum).c_str(),*rrv_x,*rrv_c_Exp);
+      std::cout << "Done" << std::endl;
       return model_pdf_exp ;
     }
     
     if( model == "Gaus"){
 
+      std::cout << "Making gaus" << std::endl;
       RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,40,100);
       RooRealVar* rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,0.,15);  
       RooGaussian* model_pdf       = new RooGaussian(("gaus"+label+"_"+channel+spectrum).c_str(),("gaus"+label+"_"+channel+spectrum).c_str(), *rrv_x,*rrv_mean1_gaus,*rrv_sigma1_gaus);
-
+      std::cout << "Done" << std::endl;
       return model_pdf ;
     }
     
@@ -778,10 +781,11 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
 
     if( model == "Gaus"){
 
+      std::cout << "Making Gaus1" << std::endl;
       RooRealVar* rrv_mean1_gaus   = new RooRealVar(("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_mean1_gaus"+label+"_"+channel+spectrum).c_str(),80,40,100);
       RooRealVar* rrv_sigma1_gaus  = new RooRealVar(("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),("rrv_sigma1_gaus"+label+"_"+channel+spectrum).c_str(),7,0.,15);  
       RooGaussian* model_pdf       = new RooGaussian(("gaus"+label+"_"+channel+spectrum).c_str(),("gaus"+label+"_"+channel+spectrum).c_str(), *rrv_x,*rrv_mean1_gaus,*rrv_sigma1_gaus);
-
+      std::cout << "Done" << std::endl;
       return model_pdf ;
     }
 
@@ -1035,9 +1039,11 @@ RooAbsPdf* MakeGeneralPdf(RooWorkspace* workspace, const std::string & label, co
   else if( TString(label).Contains("realW") or TString(label).Contains("fakeW")){
 
     if( model == "Exp"){
+      std::cout << "Making Exp2" << std::endl;
       std::cout<< "######### Exp = levelled exp funtion for W+jets mlvj ############" <<std::endl;
       RooRealVar* rrv_c_Exp = new RooRealVar(("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),("rrv_c_Exp"+label+"_"+channel+spectrum).c_str(),-0.030, -0.2, 0.05);
       RooExponential* model_pdf = new RooExponential(("model_pdf"+label+"_"+channel+spectrum).c_str(),("model_pdf"+label+"_"+channel+spectrum).c_str(),*rrv_x,*rrv_c_Exp);
+      std::cout << "Done" << std::endl;
       return model_pdf ;
     }
 

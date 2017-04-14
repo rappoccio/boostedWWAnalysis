@@ -594,24 +594,24 @@ class initialiseFits:
       # Fit functions for minor backgrounds
 #      self.mj_shape["VV"]                 = "ExpGaus"
 #      self.mj_shape["VV_fail"]            = "ExpGaus"
-      self.mj_shape["WJets0"]             = "ErfExp" #"GausErfExp_Wjets" #"ErfExp"
+      self.mj_shape["WJets0"]             = "Exp" #"GausErfExp_Wjets" #"ErfExp"
 #      self.mj_shape["WJets0"]             = "Exp"
-      self.mj_shape["WJets0_fail"]        = "ErfExp"
+      self.mj_shape["WJets0_fail"]        = "Exp"
 #      self.mj_shape["WJets0_fail"]        = "Exp"
-      self.mj_shape["QCD"]                = "ErfExp"#  "GausChebychev_QCD" #"GausErfExp_QCD"#"GausChebychev_ttbar_failSubjetTau21cut"
+      self.mj_shape["QCD"]                = "Exp"#  "GausChebychev_QCD" #"GausErfExp_QCD"#"GausChebychev_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["QCD_fail"]           =  "ErfExp" # "GausErfExp_QCD_failSubjetTau21cut"
+      self.mj_shape["QCD_fail"]           =  "Exp" # "GausErfExp_QCD_failSubjetTau21cut"
       #self.mj_shape["STop"]               = "ExpGaus_sp"
-      self.mj_shape["STop"]               = "ErfExpGaus_sp"       
+      self.mj_shape["STop"]               = "ExpGaus"
       self.mj_shape["STop_fail"]          = "ExpGaus"  
       
       if (options.usePuppiSD): 
-        self.mj_shape["STop_fail"]          = "ErfExpGaus_sp"  
+        self.mj_shape["STop_fail"]          = "ExpGaus"  
 
       if (options.useN2DDT):
 #        self.mj_shape["STop_fail"]          = "ErfExpGaus_sp"
 #        self.mj_shape["STop_fail"]          = "ExpGaus"
-        self.mj_shape["STop_fail"]          = "ExpGaus_sp"
+        self.mj_shape["STop_fail"]          = "ExpGaus"
 
 #      if (options.tau2tau1cutHP==0.60): 
 #        self.mj_shape["QCD_fail"]     = "Exp"
@@ -625,18 +625,18 @@ class initialiseFits:
 #        self.mj_shape["STop"]               = "ExpGaus"  
         
       # Fit functions used in simultaneous fit of pass and fail categories
-      self.mj_shape["bkg_mc_fail"]          =  "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_mc_fail"]          = "Exp" #"GausErfExp_ttbar_failSubjetTau21cut"
       self.mj_shape["bkg_data_fail"]        = "Exp"#"GausErfExp_ttbar_failSubjetTau21cut"
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
 #      self.mj_shape["signal_data_fail"]     = "GausExp_failSubjetTau21cut"
-      self.mj_shape["signal_mc_fail"]       = "GausErfExp_ttbar_failSubjetTau21cut" #"GausChebychev_ttbar_failSubjetTau21cut" 
-      self.mj_shape["signal_data_fail"]     = "Exp" #"GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["signal_mc_fail"]       = "Gaus_ttbar" #"GausErfExp_ttbar_failSubjetTau21cut" #"GausChebychev_ttbar_failSubjetTau21cut" 
+      self.mj_shape["signal_data_fail"]     = "Gaus_ttbar" #"GausErfExp_ttbar_failSubjetTau21cut"
 
-      self.mj_shape["bkg_data"]             = "ErfExp_ttbar"  # "GausChebychev_ttbar"
-      self.mj_shape["bkg_mc"]               = "ErfExp_ttbar" # "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
+      self.mj_shape["bkg_data"]             = "Exp"  # "GausChebychev_ttbar"
+      self.mj_shape["bkg_mc"]               = "Exp" # "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
       
-      self.mj_shape["signal_data"]          = "Gaus" #Before 2Gaus_ttbar
+      self.mj_shape["signal_data"]          = "Gaus_ttbar" #Before 2Gaus_ttbar
       self.mj_shape["signal_mc"]            = "Gaus_ttbar"
       
 #      if (options.useDDT): 
@@ -833,8 +833,8 @@ class initialiseFits:
         print ""
 
         self.get_mj_dataset(self.file_TTbar_mc,"_TTbar")
-        #self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_realW")
-        #self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_fakeW")
+        self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_realW")
+        self.get_mj_dataset(self.file_TTbar_mc,"_TTbar_fakeW")
 
         # Get dataset used for fit to total MC
         print "################################################"
