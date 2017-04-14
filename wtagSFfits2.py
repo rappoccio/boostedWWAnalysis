@@ -11,7 +11,7 @@ from ROOT import *
 parser = OptionParser()
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.55)
+parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.35)
 parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
 parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg")
 parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
@@ -26,8 +26,8 @@ parser.add_option('--usePuppiSD',dest="usePuppiSD", default=True, action="store_
 
 #Added these 2 lines - Michael
 # For running on lpc
-#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
-#ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
 # For running on local machine
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFitCore.so")
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFit.so")
@@ -676,8 +676,8 @@ class initialiseFits:
         
 
       # Directory and input files
-      #self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
-      self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
+      self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      #self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
 #"/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
 #      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
       # self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag/PRUNED/WWTree_%s/"%(self.channel)
