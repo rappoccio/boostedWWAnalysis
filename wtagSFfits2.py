@@ -101,7 +101,8 @@ def drawFrameGetChi2(self, variable,fitResult,dataset,pdfModel,isData):
     pdfModel.plotOn(frame,RooFit.LineColor(kBlack),RooFit.Name(pdfModel.GetName())) #,RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     chi2 = frame.chiSquare(pdfModel.GetName(), dataset.GetName ())
     pdfModel.plotOn(frame,RooFit.Name( "Gaussian 2" ),RooFit.Components("gaus2*"),RooFit.LineStyle(kSolid),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
-    pdfModel.plotOn(frame,RooFit.Name( "ErfExp comp." ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kBlue+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    #pdfModel.plotOn(frame,RooFit.Name( "model_bkg" ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kBlue+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    pdfModel.plotOn(frame,RooFit.Name( "model_pdf_exp" ),RooFit.Components("model_pdf_exp*"),RooFit.LineStyle(9),RooFit.LineColor(kRed+5),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     pdfModel.plotOn(frame,RooFit.Name( "Gaussian 1" ),RooFit.Components("gaus1*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kRed+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     pdfModel.plotOn(frame,RooFit.Name( "Chebyshev comp." ),RooFit.Components("cheb*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     if(isData): dataset.plotOn(frame,RooFit.DataError(RooAbsData.Poisson),RooFit.Name(dataset.GetName ()))
@@ -125,8 +126,11 @@ def drawFrameGetChi2(self, variable,fitResult,dataset,pdfModel,isData):
       legend.AddEntry(frame.findObject("Chebyshev comp."),frame.findObject("Chebyshev comp.").GetName(),"l")
     if frame.findObject("Gaussian 2"):
       legend.AddEntry(frame.findObject("Gaussian 2"),frame.findObject("Gaussian 2").GetName(),"l")
-    if frame.findObject("ErfExp comp."):
-      legend.AddEntry(frame.findObject("ErfExp comp."),frame.findObject("ErfExp comp.").GetName(),"l")
+    if frame.findObject("model_pdf_exp"):
+      legend.AddEntry(frame.findObject("model_pdf_exp"),frame.findObject("model_pdf_exp").GetName(),"l")
+      
+    #    pdfModel.plotOn(frame,RooFit.Name( "model_pdf_exp" ),RooFit.Components("model_pdf_exp*"),RooFit.LineStyle(9),RooFit.LineColor(kRed+5),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    
     legend.Draw("same")
     CMS_lumi.CMS_lumi(c1, iPeriod, iPos)
     addInfo = getPavetext()
@@ -157,7 +161,10 @@ def drawDataAndMC(self, variable,fitResult,dataset,pdfModel,isData,variable2,fit
     pdfModel.plotOn(frame,RooFit.LineColor(kBlack),RooFit.Name(pdfModel.GetName())) #,RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     chi2 = frame.chiSquare(pdfModel.GetName(), dataset.GetName ())
     pdfModel.plotOn(frame,RooFit.Name( "Gaussian 2" ),RooFit.Components("gaus2*"),RooFit.LineStyle(kSolid),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
-    pdfModel.plotOn(frame,RooFit.Name( "ErfExp Data comp." ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kBlue+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    #pdfModel.plotOn(frame,RooFit.Name( "Data_bkg comp." ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kBlue+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+
+    pdfModel.plotOn(frame,RooFit.Name( "model_pdf_exp" ),RooFit.Components("model_pdf_exp*"),RooFit.LineStyle(9),RooFit.LineColor(kRed+5),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+     
     pdfModel.plotOn(frame,RooFit.Name( "Gaussian Data comp." ),RooFit.Components("gaus1*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kRed+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     pdfModel.plotOn(frame,RooFit.Name( "Chebyshev comp." ),RooFit.Components("cheb*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     if(isData): dataset.plotOn(frame,RooFit.DataError(RooAbsData.Poisson),RooFit.Name(dataset.GetName ()))
@@ -170,8 +177,9 @@ def drawDataAndMC(self, variable,fitResult,dataset,pdfModel,isData,variable2,fit
     pdfModel2.plotOn(frame,RooFit.LineColor(kGreen),RooFit.Name(pdfModel2.GetName())) #,RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     chi2_2 = frame.chiSquare(pdfModel2.GetName(), dataset2.GetName ())
     pdfModel2.plotOn(frame,RooFit.Name( "Gaussian 2 MC" ),RooFit.Components("gaus2*"),RooFit.LineStyle(kSolid),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
-    pdfModel2.plotOn(frame,RooFit.Name( "ErfExp MC comp." ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kMagenta+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    pdfModel2.plotOn(frame,RooFit.Name( "model_bkg MC comp." ),RooFit.Components("model_bkg*"),RooFit.LineStyle(9),RooFit.LineColor(kMagenta+2),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     pdfModel2.plotOn(frame,RooFit.Name( "Gaussian MC comp." ),RooFit.Components("gaus1*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kOrange-3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+    pdfModel2.plotOn(frame,RooFit.Name( "Gaussian MC comp." ),RooFit.Components("model_pdf_exp*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kGreen-3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     pdfModel2.plotOn(frame,RooFit.Name( "Chebyshev comp. MC" ),RooFit.Components("cheb*"),RooFit.LineStyle(kDashed),RooFit.LineColor(kBlue+3),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
     if(isData2): dataset2.plotOn(frame,RooFit.DataError(RooAbsData.Poisson),RooFit.Name(dataset2.GetName ()),RooFit.MarkerColor(kGreen+3),RooFit.LineColor(kGreen+3))
     else: dataset2.plotOn(frame,RooFit.DataError(RooAbsData.SumW2),RooFit.Name(dataset2.GetName ()),RooFit.MarkerColor(kGreen+3),RooFit.LineColor(kGreen+3))
@@ -199,9 +207,14 @@ def drawDataAndMC(self, variable,fitResult,dataset,pdfModel,isData,variable2,fit
     if frame.findObject("Gaussian 2"):
       legend.AddEntry(frame.findObject("Gaussian Data comp."),frame.findObject("Gaussian Data comp.").GetName(),"l")
       legend.AddEntry(frame.findObject("Gaussian MC comp."),frame.findObject("Gaussian MC comp.").GetName(),"l")
-    if frame.findObject("ErfExp Data comp."):
-      legend.AddEntry(frame.findObject("ErfExp Data comp."),frame.findObject("ErfExp Data comp.").GetName(),"l")
-      legend.AddEntry(frame.findObject("ErfExp MC comp."),frame.findObject("ErfExp MC comp.").GetName(),"l")
+    #if frame.findObject("Data_bkg comp."):
+      #legend.AddEntry(frame.findObject("Data_bkg comp."),frame.findObject("Data_bkg comp.").GetName(),"l")
+      #legend.AddEntry(frame.findObject("model_bkg MC comp."),frame.findObject("model_bkg MC comp.").GetName(),"l")
+    if frame.findObject("model_pdf_exp"):
+      legend.AddEntry(frame.findObject("model_pdf_exp"),frame.findObject("model_pdf_exp").GetName(),"l")
+      
+    #pdfModel.plotOn(frame,RooFit.Name( "model_pdf_exp" ),RooFit.Components("model_pdf_exp*"),RooFit.LineStyle(9),RooFit.LineColor(kRed+5),RooFit.Normalization(1.0,RooAbsReal.RelativeExpected))
+     
     legend.Draw("same")
     CMS_lumi.CMS_lumi(c1, iPeriod, iPos)
     addInfo = getPavetext()
@@ -613,12 +626,12 @@ class initialiseFits:
         
       # Fit functions used in simultaneous fit of pass and fail categories
       self.mj_shape["bkg_mc_fail"]          =  "GausErfExp_ttbar_failSubjetTau21cut"
-      self.mj_shape["bkg_data_fail"]        = "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["bkg_data_fail"]        = "Exp"#"GausErfExp_ttbar_failSubjetTau21cut"
       
 #      self.mj_shape["signal_mc_fail"]       = "GausExp_failSubjetTau21cut" #Before GausChebychev_ttbar_failSubjetTau21cut
 #      self.mj_shape["signal_data_fail"]     = "GausExp_failSubjetTau21cut"
       self.mj_shape["signal_mc_fail"]       = "GausErfExp_ttbar_failSubjetTau21cut" #"GausChebychev_ttbar_failSubjetTau21cut" 
-      self.mj_shape["signal_data_fail"]     = "GausErfExp_ttbar_failSubjetTau21cut"
+      self.mj_shape["signal_data_fail"]     = "Exp" #"GausErfExp_ttbar_failSubjetTau21cut"
 
       self.mj_shape["bkg_data"]             = "ErfExp_ttbar"  # "GausChebychev_ttbar"
       self.mj_shape["bkg_mc"]               = "ErfExp_ttbar" # "GausChebychev_ttbar"  #"GausChebychev_ttbar" #"ErfExp_ttbar"   
@@ -1242,3 +1255,4 @@ if __name__ == '__main__':
     else:
         print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
         getSF()
+
