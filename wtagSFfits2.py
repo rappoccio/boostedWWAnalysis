@@ -21,13 +21,15 @@ parser.add_option('--76X',dest="use76X", default=False, action="store_true", hel
 parser.add_option('--useDDT',dest="useDDT", default=False, action="store_true", help="Use DDT tagger")
 parser.add_option('--useN2DDT',dest="useN2DDT", default=False, action="store_true", help="Use N_2^DDT tagger")
 parser.add_option('--usePuppiSD',dest="usePuppiSD", default=True, action="store_true", help="Use PUPPI+softdrop")
+parser.add_option('--salsetup',dest="salsetup", default=True, action="store_true", help="Sal's setup")
 
 (options, args) = parser.parse_args()
 
 #Added these 2 lines - Michael
 # For running on lpc
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
-ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")
+if not options.salsetup: 
+    ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFitCore.so")
+    ROOT.gSystem.Load("/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.22-cms3/lib/libRooFit.so")    
 # For running on local machine
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFitCore.so")
 #ROOT.gSystem.Load("/opt/local/libexec/root6/lib/root/libRooFit.so")
@@ -676,7 +678,10 @@ class initialiseFits:
         
 
       # Directory and input files
-      self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      if not options.salsetup: 
+        self.file_Directory         = "/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
+      else:
+        self.file_Directory         = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
       #self.file_Directory = "/Users/rappoccio/fwlite/B2G/boostedWScalefactorProducer/data/"
 #"/uscms_data/d3/aparker/Wtag/ForkofB2GTTBar_V4Branch/CMSSW_8_0_22/src/Analysis/B2GTTbar/test/pyttbarfw/"
 #      self.file_Directory         = "$HOME/EXOVVAnalysisRunII/AnalysisOutput/Wtag_80X/WWTree_%s/"%(self.channel) #For 80X!!!!
@@ -689,7 +694,7 @@ class initialiseFits:
 
       postfix = ""
       if options.use76X: postfix ="_76X"  
-      self.nameTag = "noTopTagSkimWeights3"  #"looserMETandPtRelCuts"    #"noTopTagSkimWeights3" #"looserMETandPtRelCuts"
+      self.nameTag = "looserMETandPtRelCuts"  # "noTopTagSkimWeights3"     #"noTopTagSkimWeights3" #"looserMETandPtRelCuts"
       self.file_data              = ("singlemuandel_run2016_highmass_"+ self.nameTag +".root")# ("ExoDiBosonAnalysis.WWTree_data_76X_PUPPISD.root")
       self.file_pseudodata        = ("pseudodata_highmass_"+ self.nameTag +".root")#("ExoDiBosonAnalysis.WWTree_pseudodata_76X_PUPPISD.root")     
       self.file_WJets0_mc         = ("wjets_highmass_"+ self.nameTag +".root ")#("ExoDiBosonAnalysis.WWTree_WJets_76X_PUPPISD.root")
